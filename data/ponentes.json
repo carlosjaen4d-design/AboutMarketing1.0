@@ -1,0 +1,48 @@
+﻿[
+    {
+        "id":  "luis-montalvo",
+        "nombre":  "Luis Montalvo",
+        "cargo":  "Profesor y consultor de Marketing",
+        "empresa":  "IES Alonso de Avellaneda",
+        "foto":  "assets/img/luis-montalvo.png",
+        "fotoRelativa":  "../assets/img/luis-montalvo.png",
+        "tags":  [
+                     "Live Shopping",
+                     "TT Shop Partner",
+                     "E-commerce",
+                     "Marketing Digital"
+                 ],
+        "bio":  "Luis Montalvo es profesor y consultor de marketing con amplia experiencia en el entorno digital. Está especializado en Live Shopping, e-commerce y eventos híbridos. En sus charlas combina teoría y práctica con ejemplos reales para que cualquier persona pueda aplicar lo aprendido.",
+        "rrss":  {
+                     "linkedin":  "https://linkedin.com",
+                     "twitter":  "https://twitter.com",
+                     "instagram":  "https://instagram.com"
+                 },
+        "charla":  "Live Shopping: el futuro del comercio digital",
+        "fotoModal":  "assets/img/luis-montalvo.jpg",
+        "fotoModalRelativa":  "../assets/img/luis-montalvo.jpg"
+    },
+    {
+        "id":  "raquel-linde",
+        "nombre":  "Raquel Linde",
+        "cargo":  "Marketing Manager",
+        "empresa":  "@youaretheprincess | WIR",
+        "foto":  "assets/img/raquel-linde.png",
+        "fotoRelativa":  "../assets/img/raquel-linde.png",
+        "tags":  [
+                     "Retail Marketing",
+                     "Eventos Híbridos",
+                     "Branding",
+                     "Producción"
+                 ],
+        "bio":  "Raquel Linde es Marketing Manager en @youaretheprincess y miembro de WIR. Tiene experiencia en estrategias de marca, contenidos y eventos híbridos. Su enfoque une creatividad con análisis para construir campañas memorables y medibles.",
+        "rrss":  {
+                     "linkedin":  "https://linkedin.com",
+                     "twitter":  "https://twitter.com",
+                     "instagram":  "https://instagram.com"
+                 },
+        "charla":  "Marketing de experiencias: conectar marca y emoción",
+        "fotoModal":  "assets/img/raquel-linde.jpg",
+        "fotoModalRelativa":  "../assets/img/raquel-linde.jpg"
+    }
+]

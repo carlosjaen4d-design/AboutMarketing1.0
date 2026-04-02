@@ -1,0 +1,38 @@
+﻿[
+  {
+    "id": 1,
+    "titulo": "About Marketing agota sus plazas en 48 horas",
+    "fecha": "2026-03-10",
+    "categoria": "Evento",
+    "imagen": "assets/img/noticia-placeholder.svg",
+    "resumen": "La demanda superó las previsiones y el aforo se completó en solo dos días.",
+    "contenido": "El formulario de inscripción recibió una gran respuesta desde su publicación. El equipo organizador está valorando habilitar una sala adicional con retransmisión en directo para ampliar el acceso al evento."
+  },
+  {
+    "id": 2,
+    "titulo": "Luis Montalvo: claves para vender en directo",
+    "fecha": "2026-03-14",
+    "categoria": "Entrevista",
+    "imagen": "assets/img/noticia-placeholder.svg",
+    "resumen": "El ponente adelanta ideas prácticas que desarrollará en su sesión.",
+    "contenido": "En su intervención, Luis explicará cómo preparar un guion de venta en directo, qué métricas revisar y qué errores evitar en un primer proyecto de Live Shopping."
+  },
+  {
+    "id": 3,
+    "titulo": "Marketing de experiencias: por qué funciona",
+    "fecha": "2026-03-18",
+    "categoria": "Artículo",
+    "imagen": "assets/img/noticia-placeholder.svg",
+    "resumen": "Raquel Linde analiza el impacto de las experiencias de marca en la fidelización.",
+    "contenido": "Las marcas que generan emociones coherentes en todos los puntos de contacto consiguen más recuerdo y mejor reputación. La charla mostrará ejemplos aplicables en proyectos académicos y reales."
+  },
+  {
+    "id": 4,
+    "titulo": "5 herramientas SEO para empezar con buen pie",
+    "fecha": "2026-03-20",
+    "categoria": "Guía",
+    "imagen": "assets/img/noticia-placeholder.svg",
+    "resumen": "Selección de utilidades gratuitas para investigar, medir y optimizar contenidos.",
+    "contenido": "Google Search Console, Google Trends, AnswerThePublic y otras herramientas permiten trabajar SEO con criterio desde el primer día. En esta guía se resume cuándo usar cada una."
+  }
+]

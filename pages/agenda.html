@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda | About Marketing</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/componentes.css">
+</head>
+<body>
+
+  <div class="info-bar">
+    <div class="contenedor info-bar__inner">
+      <span class="info-bar__item">26 de marzo de 2026</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">18:45 h</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
+    </div>
+  </div>
+
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="contenedor navbar__inner">
+      <a href="../index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
+        <span class="logo-am">am</span><span class="logo-punto"></span>
+      </a>
+      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <ul class="navbar__menu">
+        <li><a href="../index.html" class="navbar__link">Inicio</a></li>
+        <li><a href="ponentes.html" class="navbar__link">Ponentes</a></li>
+        <li><a href="agenda.html" class="navbar__link activo">Agenda</a></li>
+        <li><a href="noticias.html" class="navbar__link">Noticias</a></li>
+        <li><a href="contacto.html" class="navbar__link">Contacto</a></li>
+        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+      <div class="contenedor">
+        <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Agenda</span></nav>
+        <span class="seccion-eyebrow">Programación</span>
+        <h1 class="seccion-titulo">AGENDA DEL EVENTO</h1>
+        <p class="seccion-subtitulo">Horarios, sesiones y momentos clave de About Marketing.</p>
+      </div>
+    </header>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <!-- Interconexión: js/agenda.js renderiza aquí la timeline desde data/agenda.json -->
+        <div class="agenda__lista"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__main">
+      <div class="contenedor footer__main-inner">
+        <div class="footer__logo"><span class="logo-am">am</span><span class="logo-punto"></span></div>
+        <div class="footer__info">
+          <p class="footer__tagline">About Marketing</p>
+          <p class="footer__sub">Evento de marketing inmersivo</p>
+        </div>
+        <nav class="footer__links">
+          <a href="ponentes.html" class="footer__link">Ponentes</a>
+          <a href="agenda.html" class="footer__link">Agenda</a>
+          <a href="noticias.html" class="footer__link">Noticias</a>
+          <a href="contacto.html" class="footer__link">Inscripción</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/navbar.js"></script>
+  <script src="../js/agenda.js"></script>
+</body>
+</html>
+
+

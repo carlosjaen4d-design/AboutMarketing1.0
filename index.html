@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Marketing - Evento de marketing inmersivo. IES Alonso de Avellaneda, 26 de marzo de 2026.">
+  <meta name="theme-color" content="#4E7FB8">
+  <title>About Marketing · 26.03.2026</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/componentes.css">
+</head>
+<body>
+
+  <div class="info-bar">
+    <div class="contenedor info-bar__inner">
+      <span class="info-bar__item">26 de marzo de 2026</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">18:45 h</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">Entrada gratuita</span>
+    </div>
+  </div>
+
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="contenedor navbar__inner">
+      <a href="index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
+        <span class="logo-am">am</span>
+        <span class="logo-punto" aria-hidden="true"></span>
+      </a>
+      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar__menu" role="list">
+        <li><a href="index.html" class="navbar__link activo">Inicio</a></li>
+        <li><a href="pages/ponentes.html" class="navbar__link">Ponentes</a></li>
+        <li><a href="pages/agenda.html" class="navbar__link">Agenda</a></li>
+        <li><a href="pages/noticias.html" class="navbar__link">Noticias</a></li>
+        <li><a href="pages/contacto.html" class="navbar__link">Contacto</a></li>
+        <li><a href="pages/contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero" aria-labelledby="hero-titulo" style="padding: 0; min-height: calc(100svh - 94px); position: relative; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="position:absolute; inset:0; z-index:0;">
+        <img src="assets/img/am-cielo.png" alt="" aria-hidden="true" style="width:100%; height:100%; object-fit:cover; object-position:center; filter:saturate(105%) brightness(0.88);">
+        <div style="position:absolute; inset:0; background: linear-gradient(to bottom, rgba(40,70,130,0.55) 0%, rgba(25,50,100,0.65) 60%, rgba(15,35,80,0.9) 100%);"></div>
+      </div>
+
+      <div class="contenedor" style="flex:1; display:flex; align-items:center; position:relative; z-index:1; padding-top:var(--s-12); padding-bottom:var(--s-16);">
+        <div class="hero__inner" style="padding:0; width:100%;">
+          <span class="hero__presenta">IES Alonso de Avellaneda presenta</span>
+          <h1 id="hero-titulo" class="hero__titulo">about marketing<span class="hero__punto" aria-hidden="true"></span></h1>
+          <p class="hero__fecha">26 · 03 · 2026</p>
+          <p class="hero__bajada">Evento de marketing inmersivo con profesionales del sector digital.</p>
+          <div class="hero__acciones">
+            <a href="pages/contacto.html" class="btn btn-primario">Reserva tu plaza</a>
+            <a href="pages/ponentes.html" class="btn btn-secundario">Ver ponentes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__bottom-bar" style="position:relative; z-index:1;">
+        <span class="hero__bottom-item">18:45</span>
+        <div class="hero__bottom-logo">
+          <span class="logo-am">am</span>
+          <span class="logo-punto"></span>
+        </div>
+        <span class="hero__bottom-item">Salón de Actos</span>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" id="ticker-track" data-ticker="true"></div>
+    </div>
+
+    <section class="seccion inicio-teaser" aria-labelledby="inicio-teaser-titulo">
+      <div class="contenedor">
+        <div class="seccion-header reveal" style="text-align:center; max-width:700px; margin:0 auto var(--s-10);">
+          <span class="seccion-eyebrow">Descubre el evento</span>
+          <h2 class="seccion-titulo" id="inicio-teaser-titulo">Sin spoilers, al detalle</h2>
+          <p class="seccion-subtitulo" style="margin:0 auto;">Explora cada bloque en su propia página para ver toda la información completa.</p>
+        </div>
+
+        <div class="inicio-teaser__grid">
+          <article class="inicio-teaser__card reveal">
+            <p class="inicio-teaser__eyebrow">Ponentes</p>
+            <h3 class="inicio-teaser__titulo">Perfiles y charlas</h3>
+            <p class="inicio-teaser__texto">Conoce quién participa, su trayectoria y los temas que presentarán en el escenario.</p>
+            <a href="pages/ponentes.html" class="btn-ghost">Ir a ponentes</a>
+          </article>
+
+          <article class="inicio-teaser__card reveal reveal-delay-1">
+            <p class="inicio-teaser__eyebrow">Agenda</p>
+            <h3 class="inicio-teaser__titulo">Horario completo</h3>
+            <p class="inicio-teaser__texto">Revisa todos los tramos del evento, duración de sesiones y momentos especiales.</p>
+            <a href="pages/agenda.html" class="btn-ghost">Ir a agenda</a>
+          </article>
+
+          <article class="inicio-teaser__card reveal reveal-delay-2">
+            <p class="inicio-teaser__eyebrow">Noticias</p>
+            <h3 class="inicio-teaser__titulo">Novedades previas</h3>
+            <p class="inicio-teaser__texto">Sigue actualizaciones, entrevistas y contenido útil antes del día del evento.</p>
+            <a href="pages/noticias.html" class="btn-ghost">Ir a noticias</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion seccion-alt sobre-evento" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="contenedor">
+        <div class="sobre-evento__layout reveal">
+          <div class="sobre-evento__img-wrap">
+            <img src="assets/img/sobre-evento.png" alt="Evento de marketing inmersivo" loading="lazy" style="border-radius:var(--radio-lg);">
+          </div>
+
+          <div class="sobre-evento__texto">
+            <span class="seccion-eyebrow">El evento</span>
+            <h2 id="sobre-titulo">Evento de marketing <span>inmersivo</span></h2>
+            <p>Una jornada de ponencias, networking y aprendizaje con profesionales del sector digital.</p>
+
+            <div class="sobre-evento__stats">
+              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">2</span><span class="sobre-evento__stat-label">Ponentes</span></div>
+              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">Free</span><span class="sobre-evento__stat-label">Entrada</span></div>
+              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">18:45</span><span class="sobre-evento__stat-label">Hora de inicio</span></div>
+              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">26.03</span><span class="sobre-evento__stat-label">Fecha</span></div>
+            </div>
+
+            <div style="margin-top:var(--s-8);">
+              <a href="pages/contacto.html" class="btn btn-primario">Inscríbete gratis</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="contenedor" style="position:relative; z-index:1;">
+        <span class="seccion-eyebrow" style="display:block; text-align:center;">Plazas limitadas</span>
+        <h2 class="cta-section__titulo reveal">¿Listo para <span>aprender?</span></h2>
+        <p class="cta-section__sub reveal reveal-delay-1">Entrada gratuita. 26 de marzo, 18:45 h. IES Alonso de Avellaneda, Alcalá de Henares.</p>
+        <a href="pages/contacto.html" class="btn btn-primario reveal reveal-delay-2" style="font-size:1rem; padding:1rem 2.5rem;">Inscríbete ahora</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__ticker-wrapper">
+      <div class="ticker__track ticker-footer" id="footer-ticker-track" data-ticker="true" data-ticker-reverse="true"></div>
+    </div>
+
+    <div class="footer__main">
+      <div class="contenedor footer__main-inner">
+        <div class="footer__logo"><span class="logo-am">am</span><span class="logo-punto"></span></div>
+        <div class="footer__info">
+          <p class="footer__tagline">About Marketing</p>
+          <p class="footer__sub">Evento de marketing inmersivo</p>
+          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:var(--s-2);">26.03.2026 · 18:45 h · IES Alonso de Avellaneda</p>
+        </div>
+        <nav class="footer__links" aria-label="Navegación del pie de página">
+          <a href="pages/ponentes.html" class="footer__link">Ponentes</a>
+          <a href="pages/agenda.html" class="footer__link">Agenda</a>
+          <a href="pages/noticias.html" class="footer__link">Noticias</a>
+          <a href="pages/contacto.html" class="footer__link">Inscripción</a>
+          <a href="#" class="footer__link">Instagram</a>
+          <a href="#" class="footer__link">TikTok</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <div class="contenedor footer__bottom-inner">
+        <p class="footer__copy">© 2026 About Marketing · IES Alonso de Avellaneda · 1.º DAW · Lenguaje de Marcas</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/navbar.js"></script>
+  <script src="js/animaciones.js"></script>
+  <script src="js/ticker.js"></script>
+</body>
+</html>

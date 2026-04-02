@@ -1,0 +1,56 @@
+﻿[
+  {
+    "hora": "18:45",
+    "titulo": "Apertura de puertas y bienvenida",
+    "tipo": "organizacion",
+    "ponente": null,
+    "sala": "Salón de Actos",
+    "duracion": "15 min",
+    "descripcion": "Recepción de asistentes, acreditaciones y presentación del evento por parte del equipo organizador."
+  },
+  {
+    "hora": "19:00",
+    "titulo": "Live Shopping: el futuro del comercio digital",
+    "tipo": "ponencia",
+    "ponente": "luis-montalvo",
+    "sala": "Salón de Actos",
+    "duracion": "45 min",
+    "descripcion": "Cómo está cambiando el e-commerce con formatos en directo y qué estrategias funcionan hoy en el mercado."
+  },
+  {
+    "hora": "19:45",
+    "titulo": "Pausa - Networking",
+    "tipo": "pausa",
+    "ponente": null,
+    "sala": "Hall principal",
+    "duracion": "15 min",
+    "descripcion": "Tiempo para conversar, hacer contactos y compartir ideas con otros asistentes."
+  },
+  {
+    "hora": "20:00",
+    "titulo": "Marketing de experiencias: conectar marca y emoción",
+    "tipo": "ponencia",
+    "ponente": "raquel-linde",
+    "sala": "Salón de Actos",
+    "duracion": "45 min",
+    "descripcion": "Cómo diseñar experiencias que mejoren el recuerdo de marca y aumenten la fidelización."
+  },
+  {
+    "hora": "20:45",
+    "titulo": "Mesa redonda y preguntas",
+    "tipo": "especial",
+    "ponente": null,
+    "sala": "Salón de Actos",
+    "duracion": "30 min",
+    "descripcion": "Debate final con preguntas del público sobre tendencias y salidas profesionales en marketing digital."
+  },
+  {
+    "hora": "21:15",
+    "titulo": "Clausura y cierre",
+    "tipo": "organizacion",
+    "ponente": null,
+    "sala": "Salón de Actos",
+    "duracion": "15 min",
+    "descripcion": "Agradecimientos, despedida y cierre oficial del evento."
+  }
+]

@@ -1,0 +1,179 @@
+/* =============================================
+   ABOUT MARKETING — navbar.css FINAL
+   Estructura nueva: info bar arriba + nav limpia
+   Logo: am con punto rojo, en Nunito Black
+   ============================================= */
+
+/* ── INFO BAR — franja pequeña encima del nav ── */
+.info-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1001;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  background: var(--cielo-noche);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.info-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--s-4);
+}
+.info-bar__item {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.35);
+  font-weight: 600;
+  font-family: var(--fuente-cuerpo);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+.info-bar__sep { color: rgba(255,255,255,0.12); }
+
+/* ── NAVBAR PRINCIPAL ── */
+.navbar {
+  position: fixed;
+  top: 30px; left: 0; right: 0;
+  z-index: 1000;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: rgba(37, 62, 98, 0.82);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  transition: background var(--trans-n), border-color var(--trans-n);
+}
+.navbar.scrolled {
+  background: rgba(30, 52, 85, 0.97);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* ── LOGO — am con punto rojo ── */
+.navbar__logo {
+  display: flex;
+  align-items: flex-start;
+  line-height: 50px;
+  transition: opacity var(--trans-r);
+  flex-shrink: 0;
+}
+.navbar__logo:hover { opacity: 0.8; }
+
+/* El "am" en Nunito Black amarillo */
+.logo-am {
+  font-family: var(--fuente-logo);
+  font-weight: 900;
+  font-size: 2rem;
+  color: var(--amarillo);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+/* El punto rojo — posicionado como en el logo real */
+.logo-punto {
+  width: 11px;
+  height: 11px;
+  background: var(--rojo);
+  border-radius: 50%;
+  margin-left: 2px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  animation: punto-latido 2.8s ease infinite;
+}
+
+@keyframes punto-latido {
+  0%, 85%, 100% { transform: scale(1); }
+  92%           { transform: scale(1.3); }
+}
+
+/* ── MENÚ ── */
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+}
+
+.navbar__link {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  padding: 0.3rem 0;
+  transition: color var(--trans-r);
+}
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--amarillo);
+  border-radius: 2px;
+  transition: width var(--trans-n);
+}
+.navbar__link:hover        { color: var(--blanco); }
+.navbar__link:hover::after { width: 100%; }
+.navbar__link.activo        { color: var(--amarillo); }
+.navbar__link.activo::after { width: 100%; }
+
+.navbar__cta { padding: 0.55rem 1.4rem; font-size: var(--texto-xs); border-radius: var(--radio-full); }
+
+/* ── HAMBURGUESA ── */
+.navbar__hamburguesa {
+  display: none;
+  flex-direction: column;
+  gap: 5px; padding: 6px;
+}
+.navbar__hamburguesa span {
+  display: block; width: 22px; height: 1.5px;
+  background: rgba(255,255,255,0.5); border-radius: 2px;
+  transition: all var(--trans-n);
+}
+.navbar__hamburguesa.abierto span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--amarillo); }
+.navbar__hamburguesa.abierto span:nth-child(2) { opacity: 0; }
+.navbar__hamburguesa.abierto span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--amarillo); }
+
+/* ── OFFSET PARA CONTENIDO ── */
+/* El body necesita padding para no quedar bajo las barras fijas */
+body { padding-top: 94px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .info-bar { display: none; }
+  .navbar { top: 0; }
+  body { padding-top: 64px; }
+  .navbar__hamburguesa { display: flex; }
+  .navbar__menu {
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(20, 40, 70, 0.98);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    gap: 0;
+    padding: var(--s-4) 0 var(--s-6);
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--trans-n);
+  }
+  .navbar__menu.abierto { transform: translateY(0); opacity: 1; pointer-events: all; }
+  .navbar__link { padding: var(--s-4) var(--s-8); width: 100%; text-align: center; font-size: var(--texto-sm); }
+  .navbar__link::after { display: none; }
+  .navbar__cta { margin: var(--s-3) var(--s-8) 0; width: calc(100% - var(--s-16)); }
+}

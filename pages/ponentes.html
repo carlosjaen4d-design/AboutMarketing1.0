@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ponentes | About Marketing</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/componentes.css">
+</head>
+<body>
+
+  <div class="info-bar">
+    <div class="contenedor info-bar__inner">
+      <span class="info-bar__item">26 de marzo de 2026</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">18:45 h</span>
+      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
+    </div>
+  </div>
+
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="contenedor navbar__inner">
+      <a href="../index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
+        <span class="logo-am">am</span><span class="logo-punto"></span>
+      </a>
+      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <ul class="navbar__menu">
+        <li><a href="../index.html" class="navbar__link">Inicio</a></li>
+        <li><a href="ponentes.html" class="navbar__link activo">Ponentes</a></li>
+        <li><a href="agenda.html" class="navbar__link">Agenda</a></li>
+        <li><a href="noticias.html" class="navbar__link">Noticias</a></li>
+        <li><a href="contacto.html" class="navbar__link">Contacto</a></li>
+        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header" style="background-image: url('../assets/img/am-cielo.png'); background-size: cover; background-position: center; position: relative;">
+      <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(30,55,110,0.7), rgba(15,35,80,0.85));"></div>
+      <div class="contenedor" style="position:relative; z-index:1;">
+        <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Ponentes</span></nav>
+        <span class="seccion-eyebrow">En el escenario</span>
+        <h1 class="seccion-titulo" style="font-size:clamp(3rem,9vw,7rem);">LOS PONENTES</h1>
+        <p class="seccion-subtitulo">Perfiles y sesiones de los profesionales invitados.</p>
+      </div>
+    </header>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <!-- Interconexión: js/ponentes.js renderiza aquí tarjetas desde data/ponentes.json -->
+        <div class="ponentes__grid"></div>
+      </div>
+    </section>
+
+    <div class="separador-cielo" role="presentation" style="height:220px;">
+      <img src="../assets/img/am-cielo.png" alt="" aria-hidden="true" loading="lazy">
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__ticker-wrapper">
+      <div class="ticker__track ticker-footer" id="footer-ticker-track-p" data-ticker="true" data-ticker-reverse="true"></div>
+    </div>
+    <div class="footer__main">
+      <div class="contenedor footer__main-inner">
+        <div class="footer__logo"><span class="logo-am">am</span><span class="logo-punto"></span></div>
+        <div class="footer__info">
+          <p class="footer__tagline">About Marketing</p>
+          <p class="footer__sub">Evento de marketing inmersivo</p>
+          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:0.5rem;">26.03.2026 · 18:45 h · IES Alonso de Avellaneda</p>
+        </div>
+        <nav class="footer__links">
+          <a href="ponentes.html" class="footer__link">Ponentes</a>
+          <a href="agenda.html" class="footer__link">Agenda</a>
+          <a href="noticias.html" class="footer__link">Noticias</a>
+          <a href="contacto.html" class="footer__link">Inscripción</a>
+          <a href="#" class="footer__link">Instagram</a>
+          <a href="#" class="footer__link">TikTok</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="contenedor footer__bottom-inner">
+        <p class="footer__copy">© 2026 About Marketing · IES Alonso de Avellaneda · 1.º DAW</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/navbar.js"></script>
+  <script src="../js/ponentes.js"></script>
+  <script src="../js/animaciones.js"></script>
+  <script src="../js/ticker.js"></script>
+</body>
+</html>
+
+
