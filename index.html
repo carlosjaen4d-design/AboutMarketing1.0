@@ -1,12 +1,30 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="About Marketing - Evento de marketing inmersivo. IES Alonso de Avellaneda, 26 de marzo de 2026.">
   <meta name="theme-color" content="#4E7FB8">
-  <title>About Marketing · 26.03.2026</title>
+  <title>About Marketing &middot; 26.03.2026</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+
+  <!--
+    MEJORA #7 — Preconnect a Google Fonts
+    ================================================
+    <link rel="preconnect"> le dice al navegador:
+    "Vamos a necesitar recursos de este dominio, abre la conexión YA".
+
+    Esto ahorra tiempo porque la conexión TCP + TLS se establece
+    ANTES de que el CSS pida las fuentes. Puede ahorrar 100-300ms.
+
+    Necesitamos dos preconnects:
+    1) fonts.googleapis.com → para descargar el CSS de las fuentes
+    2) fonts.gstatic.com   → para descargar los archivos .woff2
+       (crossorigin es necesario porque las fuentes se sirven con CORS)
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/navbar.css">
@@ -14,25 +32,43 @@
 </head>
 <body>
 
+  <!--
+    MEJORA #4 — Skip Navigation Link
+    ================================================
+    Enlace invisible que aparece al pulsar Tab.
+    Permite a usuarios de teclado saltar directamente al contenido
+    sin tener que navegar por todo el menú.
+    Requisito WCAG 2.4.1 (nivel A).
+  -->
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+  <!--
+    MEJORA #9 — Barra de progreso de scroll
+    ================================================
+    Barra fina que muestra cuánto se ha scrolleado.
+    El ancho se actualiza desde mejoras.js con JavaScript.
+  -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <div class="info-bar">
     <div class="contenedor info-bar__inner">
       <span class="info-bar__item">26 de marzo de 2026</span>
-      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
       <span class="info-bar__item">18:45 h</span>
-      <span class="info-bar__item info-bar__sep">·</span>
-      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
-      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda &middot; Alcal&aacute; de Henares</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
       <span class="info-bar__item">Entrada gratuita</span>
     </div>
   </div>
 
-  <nav class="navbar" aria-label="Navegación principal">
+  <nav class="navbar" aria-label="Navegaci&oacute;n principal">
     <div class="contenedor navbar__inner">
       <a href="index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
         <span class="logo-am">am</span>
         <span class="logo-punto" aria-hidden="true"></span>
       </a>
-      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false">
+      <button class="navbar__hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <ul class="navbar__menu" role="list">
@@ -41,28 +77,43 @@
         <li><a href="pages/agenda.html" class="navbar__link">Agenda</a></li>
         <li><a href="pages/noticias.html" class="navbar__link">Noticias</a></li>
         <li><a href="pages/contacto.html" class="navbar__link">Contacto</a></li>
-        <li><a href="pages/contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+        <li><a href="pages/contacto.html" class="btn btn-primario navbar__cta">Inscr&iacute;bete</a></li>
       </ul>
     </div>
   </nav>
 
-  <main>
+  <!-- MEJORA #25 — Bot&oacute;n de cambio de tema (dark mode) -->
+  <button class="tema-toggle" id="tema-toggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+    <span aria-hidden="true" id="tema-icono">&#9790;</span>
+  </button>
 
+  <main id="contenido-principal">
+
+    <!--
+      MEJORA #20 — Parallax
+      El fondo del hero ahora usa .hero__parallax-bg que se mueve
+      m&aacute;s lento que el contenido al hacer scroll (controlado por JS).
+
+      MEJORA #6 — fetchpriority="high"
+      Le dice al navegador que la imagen del hero es la M&Aacute;S importante
+      de la p&aacute;gina. As&iacute; la descarga primero, mejorando el LCP
+      (Largest Contentful Paint), una m&eacute;trica clave de rendimiento.
+    -->
     <section class="hero" aria-labelledby="hero-titulo" style="padding: 0; min-height: calc(100svh - 94px); position: relative; overflow: hidden; display: flex; flex-direction: column;">
-      <div style="position:absolute; inset:0; z-index:0;">
-        <img src="assets/img/am-cielo.png" alt="" aria-hidden="true" style="width:100%; height:100%; object-fit:cover; object-position:center; filter:saturate(105%) brightness(0.88);">
-        <div style="position:absolute; inset:0; background: linear-gradient(to bottom, rgba(40,70,130,0.55) 0%, rgba(25,50,100,0.65) 60%, rgba(15,35,80,0.9) 100%);"></div>
+      <div class="hero__parallax-bg" id="hero-parallax">
+        <img src="assets/img/am-cielo.png" alt="" aria-hidden="true" fetchpriority="high" width="1920" height="1080">
       </div>
 
       <div class="contenedor" style="flex:1; display:flex; align-items:center; position:relative; z-index:1; padding-top:var(--s-12); padding-bottom:var(--s-16);">
         <div class="hero__inner" style="padding:0; width:100%;">
           <span class="hero__presenta">IES Alonso de Avellaneda presenta</span>
           <h1 id="hero-titulo" class="hero__titulo">about marketing<span class="hero__punto" aria-hidden="true"></span></h1>
-          <p class="hero__fecha">26 · 03 · 2026</p>
+          <p class="hero__fecha">26 &middot; 03 &middot; 2026</p>
           <p class="hero__bajada">Evento de marketing inmersivo con profesionales del sector digital.</p>
           <div class="hero__acciones">
-            <a href="pages/contacto.html" class="btn btn-primario">Reserva tu plaza</a>
-            <a href="pages/ponentes.html" class="btn btn-secundario">Ver ponentes</a>
+            <!-- MEJORA #22 — Hover magn&eacute;tico en botones -->
+            <a href="pages/contacto.html" class="btn btn-primario btn-magnetico">Reserva tu plaza</a>
+            <a href="pages/ponentes.html" class="btn btn-secundario btn-magnetico">Ver ponentes</a>
           </div>
         </div>
       </div>
@@ -73,7 +124,7 @@
           <span class="logo-am">am</span>
           <span class="logo-punto"></span>
         </div>
-        <span class="hero__bottom-item">Salón de Actos</span>
+        <span class="hero__bottom-item">Sal&oacute;n de Actos</span>
       </div>
     </section>
 
@@ -81,44 +132,67 @@
       <div class="ticker__track" id="ticker-track" data-ticker="true"></div>
     </div>
 
+    <!--
+      MEJORA #11 — Social Proof / Colaboradores
+      ================================================
+      Secci&oacute;n de entidades colaboradoras que da credibilidad al evento.
+      Es un patr&oacute;n com&uacute;n: "Si estas entidades conf&iacute;an en nosotros, t&uacute; tambi&eacute;n puedes".
+    -->
+    <section class="social-proof" aria-label="Entidades colaboradoras">
+      <div class="contenedor">
+        <p class="social-proof__titulo">Con la colaboraci&oacute;n de</p>
+        <div class="social-proof__logos" role="list">
+          <span class="social-proof__logo" role="listitem">IES Avellaneda</span>
+          <span class="social-proof__logo" role="listitem">Comunidad de Madrid</span>
+          <span class="social-proof__logo" role="listitem">Ayto. Alcal&aacute;</span>
+          <span class="social-proof__logo" role="listitem">DAW 2026</span>
+        </div>
+      </div>
+    </section>
+
     <section class="seccion inicio-teaser" aria-labelledby="inicio-teaser-titulo">
       <div class="contenedor">
         <div class="seccion-header reveal" style="text-align:center; max-width:700px; margin:0 auto var(--s-10);">
           <span class="seccion-eyebrow">Descubre el evento</span>
           <h2 class="seccion-titulo" id="inicio-teaser-titulo">Sin spoilers, al detalle</h2>
-          <p class="seccion-subtitulo" style="margin:0 auto;">Explora cada bloque en su propia página para ver toda la información completa.</p>
+          <p class="seccion-subtitulo" style="margin:0 auto;">Explora cada bloque en su propia p&aacute;gina para ver toda la informaci&oacute;n completa.</p>
         </div>
 
         <div class="inicio-teaser__grid">
           <article class="inicio-teaser__card reveal">
             <p class="inicio-teaser__eyebrow">Ponentes</p>
             <h3 class="inicio-teaser__titulo">Perfiles y charlas</h3>
-            <p class="inicio-teaser__texto">Conoce quién participa, su trayectoria y los temas que presentarán en el escenario.</p>
+            <p class="inicio-teaser__texto">Conoce qui&eacute;n participa, su trayectoria y los temas que presentar&aacute;n en el escenario.</p>
             <a href="pages/ponentes.html" class="btn-ghost">Ir a ponentes</a>
           </article>
 
           <article class="inicio-teaser__card reveal reveal-delay-1">
             <p class="inicio-teaser__eyebrow">Agenda</p>
             <h3 class="inicio-teaser__titulo">Horario completo</h3>
-            <p class="inicio-teaser__texto">Revisa todos los tramos del evento, duración de sesiones y momentos especiales.</p>
+            <p class="inicio-teaser__texto">Revisa todos los tramos del evento, duraci&oacute;n de sesiones y momentos especiales.</p>
             <a href="pages/agenda.html" class="btn-ghost">Ir a agenda</a>
           </article>
 
           <article class="inicio-teaser__card reveal reveal-delay-2">
             <p class="inicio-teaser__eyebrow">Noticias</p>
             <h3 class="inicio-teaser__titulo">Novedades previas</h3>
-            <p class="inicio-teaser__texto">Sigue actualizaciones, entrevistas y contenido útil antes del día del evento.</p>
+            <p class="inicio-teaser__texto">Sigue actualizaciones, entrevistas y contenido &uacute;til antes del d&iacute;a del evento.</p>
             <a href="pages/noticias.html" class="btn-ghost">Ir a noticias</a>
           </article>
         </div>
       </div>
     </section>
 
+    <!--
+      MEJORA #12 — Estad&iacute;sticas animadas
+      Los atributos data-valor-final y data-es-numero indican a mejoras.js
+      qu&eacute; valores animar y cu&aacute;les son num&eacute;ricos (para contar de 0 al valor).
+    -->
     <section class="seccion seccion-alt sobre-evento" id="sobre" aria-labelledby="sobre-titulo">
       <div class="contenedor">
         <div class="sobre-evento__layout reveal">
           <div class="sobre-evento__img-wrap">
-            <img src="assets/img/sobre-evento.png" alt="Evento de marketing inmersivo" loading="lazy" style="border-radius:var(--radio-lg);">
+            <img src="assets/img/sobre-evento.png" alt="Evento de marketing inmersivo" loading="lazy" style="border-radius:var(--radio-lg);" width="600" height="400">
           </div>
 
           <div class="sobre-evento__texto">
@@ -127,14 +201,26 @@
             <p>Una jornada de ponencias, networking y aprendizaje con profesionales del sector digital.</p>
 
             <div class="sobre-evento__stats">
-              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">2</span><span class="sobre-evento__stat-label">Ponentes</span></div>
-              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">Free</span><span class="sobre-evento__stat-label">Entrada</span></div>
-              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">18:45</span><span class="sobre-evento__stat-label">Hora de inicio</span></div>
-              <div class="sobre-evento__stat"><span class="sobre-evento__stat-valor">26.03</span><span class="sobre-evento__stat-label">Fecha</span></div>
+              <div class="sobre-evento__stat">
+                <span class="sobre-evento__stat-valor stat-animado" data-valor-final="2" data-es-numero="true">0</span>
+                <span class="sobre-evento__stat-label">Ponentes</span>
+              </div>
+              <div class="sobre-evento__stat">
+                <span class="sobre-evento__stat-valor">Free</span>
+                <span class="sobre-evento__stat-label">Entrada</span>
+              </div>
+              <div class="sobre-evento__stat">
+                <span class="sobre-evento__stat-valor">18:45</span>
+                <span class="sobre-evento__stat-label">Hora de inicio</span>
+              </div>
+              <div class="sobre-evento__stat">
+                <span class="sobre-evento__stat-valor">26.03</span>
+                <span class="sobre-evento__stat-label">Fecha</span>
+              </div>
             </div>
 
             <div style="margin-top:var(--s-8);">
-              <a href="pages/contacto.html" class="btn btn-primario">Inscríbete gratis</a>
+              <a href="pages/contacto.html" class="btn btn-primario btn-magnetico">Inscr&iacute;bete gratis</a>
             </div>
           </div>
         </div>
@@ -144,13 +230,24 @@
     <section class="cta-section">
       <div class="contenedor" style="position:relative; z-index:1;">
         <span class="seccion-eyebrow" style="display:block; text-align:center;">Plazas limitadas</span>
-        <h2 class="cta-section__titulo reveal">¿Listo para <span>aprender?</span></h2>
-        <p class="cta-section__sub reveal reveal-delay-1">Entrada gratuita. 26 de marzo, 18:45 h. IES Alonso de Avellaneda, Alcalá de Henares.</p>
-        <a href="pages/contacto.html" class="btn btn-primario reveal reveal-delay-2" style="font-size:1rem; padding:1rem 2.5rem;">Inscríbete ahora</a>
+        <h2 class="cta-section__titulo reveal">&iquest;Listo para <span>aprender?</span></h2>
+        <p class="cta-section__sub reveal reveal-delay-1">Entrada gratuita. 26 de marzo, 18:45 h. IES Alonso de Avellaneda, Alcal&aacute; de Henares.</p>
+        <a href="pages/contacto.html" class="btn btn-primario btn-magnetico reveal reveal-delay-2" style="font-size:1rem; padding:1rem 2.5rem;">Inscr&iacute;bete ahora</a>
       </div>
     </section>
 
   </main>
+
+  <!--
+    MEJORA #10 — CTA Sticky en m&oacute;vil
+    ================================================
+    Bot&oacute;n fijo en la parte inferior de la pantalla (solo m&oacute;vil).
+    Aparece al hacer scroll, para que el usuario siempre tenga acceso
+    a la acci&oacute;n principal sin tener que volver arriba.
+  -->
+  <div class="cta-sticky-movil" id="cta-sticky" aria-label="Inscripci&oacute;n r&aacute;pida">
+    <a href="pages/contacto.html" class="btn btn-primario">Inscr&iacute;bete ahora</a>
+  </div>
 
   <footer class="footer">
     <div class="footer__ticker-wrapper">
@@ -163,13 +260,13 @@
         <div class="footer__info">
           <p class="footer__tagline">About Marketing</p>
           <p class="footer__sub">Evento de marketing inmersivo</p>
-          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:var(--s-2);">26.03.2026 · 18:45 h · IES Alonso de Avellaneda</p>
+          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:var(--s-2);">26.03.2026 &middot; 18:45 h &middot; IES Alonso de Avellaneda</p>
         </div>
-        <nav class="footer__links" aria-label="Navegación del pie de página">
+        <nav class="footer__links" aria-label="Navegaci&oacute;n del pie de p&aacute;gina">
           <a href="pages/ponentes.html" class="footer__link">Ponentes</a>
           <a href="pages/agenda.html" class="footer__link">Agenda</a>
           <a href="pages/noticias.html" class="footer__link">Noticias</a>
-          <a href="pages/contacto.html" class="footer__link">Inscripción</a>
+          <a href="pages/contacto.html" class="footer__link">Inscripci&oacute;n</a>
           <a href="#" class="footer__link">Instagram</a>
           <a href="#" class="footer__link">TikTok</a>
         </nav>
@@ -178,7 +275,7 @@
 
     <div class="footer__bottom">
       <div class="contenedor footer__bottom-inner">
-        <p class="footer__copy">© 2026 About Marketing · IES Alonso de Avellaneda · 1.º DAW · Lenguaje de Marcas</p>
+        <p class="footer__copy">&copy; 2026 About Marketing &middot; IES Alonso de Avellaneda &middot; 1.&ordm; DAW &middot; Lenguaje de Marcas</p>
       </div>
     </div>
   </footer>
@@ -186,5 +283,7 @@
   <script src="js/navbar.js"></script>
   <script src="js/animaciones.js"></script>
   <script src="js/ticker.js"></script>
+  <!-- MEJORA: nuevo archivo con todas las funcionalidades a&ntilde;adidas -->
+  <script src="js/mejoras.js"></script>
 </body>
 </html>

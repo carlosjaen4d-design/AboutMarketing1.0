@@ -1,10 +1,39 @@
 /* =============================================
-   ABOUT MARKETING — variables.css FINAL
+   ABOUT MARKETING — variables.css
    Paleta: azul cielo retro + amarillo + rojo
    Inspirado en las imágenes del brand kit.
+
+   MEJORA #25: Dark mode con CSS custom properties
+   MEJORA #18: color-mix() para estados hover dinámicos
+   MEJORA #28: Fuentes variables (variable fonts)
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+/*
+ * MEJORA #28 — Fuentes variables (Variable Fonts)
+ * ------------------------------------------------
+ * En vez de cargar múltiples pesos por separado (400, 700, 800, 900...),
+ * usamos fuentes variables que contienen TODOS los pesos en un solo archivo.
+ *
+ * Ventajas:
+ * - Menos peticiones HTTP (1 archivo en vez de 4-5)
+ * - Menos KB totales descargados
+ * - Podemos usar cualquier peso intermedio (ej: font-weight: 650)
+ *
+ * MEJORA #8 — font-display: swap
+ * ------------------------------------------------
+ * El parámetro &display=swap le dice al navegador:
+ * "Muestra texto con fuente del sistema mientras se carga la web font".
+ * Esto evita el efecto FOIT (Flash Of Invisible Text) y mejora el LCP.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400..900&family=Dancing+Script:wght@600;700&family=Inter:wght@300..700&family=Bebas+Neue&display=swap');
+
+
+/* ══════════════════════════════════════════
+   TEMA CLARO (por defecto)
+   ══════════════════════════════════════════
+   Todas las variables de color se definen aquí.
+   El tema oscuro las sobreescribirá más abajo.
+*/
 
 :root {
 
@@ -39,7 +68,12 @@
   --borde:         rgba(255,255,255,0.14);
   --borde-suave:   rgba(255,255,255,0.07);
 
-  /* ── ALIAS ── */
+  /*
+   * ── ALIAS SEMÁNTICOS ──
+   * Estos alias permiten cambiar de tema fácilmente.
+   * En vez de usar colores directos, los componentes usan estos alias.
+   * Así, al activar dark mode, solo hay que cambiar estos valores.
+   */
   --color-fondo:       var(--cielo);
   --color-fondo-2:     var(--cielo-oscuro);
   --color-card:        rgba(255,255,255,0.08);
@@ -50,6 +84,23 @@
   --color-texto-suave: var(--crema-suave);
   --color-blanco:      var(--blanco);
   --color-rojo:        var(--rojo);
+
+  /*
+   * MEJORA #18 — color-mix() para estados hover
+   * ------------------------------------------------
+   * En vez de definir un color fijo para cada estado hover,
+   * usamos color-mix() para generar variantes automáticamente.
+   *
+   * Sintaxis: color-mix(in srgb, color1 porcentaje, color2 porcentaje)
+   * Esto mezcla dos colores en el espacio de color sRGB.
+   *
+   * Ejemplo: color-mix(in srgb, var(--amarillo), black 15%)
+   *          = 85% amarillo + 15% negro = amarillo más oscuro
+   */
+  --amarillo-hover:  color-mix(in srgb, var(--amarillo), black 15%);
+  --amarillo-active: color-mix(in srgb, var(--amarillo), black 25%);
+  --cielo-hover:     color-mix(in srgb, var(--cielo), white 15%);
+  --rojo-hover:      color-mix(in srgb, var(--rojo), black 15%);
 
   /* ── TIPOGRAFÍAS ── */
   /* Nunito Black → redondeada, cálida, = feel del logo am */
@@ -93,4 +144,87 @@
   --sombra-calida: 0 8px 32px rgba(240,196,48,0.25);
   --sombra-azul:   0 8px 32px rgba(30,60,100,0.35);
   --sombra-rojo:   0 4px 20px rgba(224,48,48,0.3);
+
+  /*
+   * ── INDICADOR DE TEMA ──
+   * Variable usada por JS para saber qué tema está activo.
+   * También permite a CSS usar color-scheme para estilizar
+   * controles nativos del navegador (scrollbars, inputs, etc.).
+   */
+  color-scheme: light;
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #25 — DARK MODE
+   ══════════════════════════════════════════
+
+   El dark mode funciona en 2 niveles:
+
+   1) AUTOMÁTICO: Si el usuario tiene su sistema operativo en modo oscuro,
+      se activa con @media (prefers-color-scheme: dark).
+      Solo se aplica si NO se ha elegido un tema manualmente.
+
+   2) MANUAL: Al hacer clic en el botón de tema, se añade
+      data-theme="dark" o data-theme="light" al <html>.
+      Esto tiene PRIORIDAD sobre la preferencia del sistema.
+
+   IMPORTANTE para 1ºDAW:
+   - :root es lo mismo que html, pero con más especificidad.
+   - [data-theme="dark"] selecciona elementos con ese atributo.
+   - :not([data-theme="light"]) excluye elementos con tema claro forzado.
+*/
+
+/* Dark mode automático (preferencia del sistema) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cielo:         #1a2a3e;
+    --cielo-claro:   #243a54;
+    --cielo-oscuro:  #121e2e;
+    --cielo-noche:   #0d1520;
+    --cielo-velo:    rgba(26, 42, 62, 0.15);
+
+    --crema:         #e0d8c8;
+    --crema-suave:   rgba(224, 216, 200, 0.65);
+    --crema-velo:    rgba(224, 216, 200, 0.12);
+
+    --borde:         rgba(255,255,255,0.10);
+    --borde-suave:   rgba(255,255,255,0.05);
+
+    --color-fondo:       var(--cielo);
+    --color-fondo-2:     var(--cielo-oscuro);
+    --color-card:        rgba(255,255,255,0.05);
+    --color-card-hover:  rgba(255,255,255,0.10);
+
+    --sombra-calida: 0 8px 32px rgba(240,196,48,0.15);
+    --sombra-azul:   0 8px 32px rgba(10,20,40,0.5);
+
+    color-scheme: dark;
+  }
+}
+
+/* Dark mode manual (usuario hizo clic en el botón) */
+[data-theme="dark"] {
+  --cielo:         #1a2a3e;
+  --cielo-claro:   #243a54;
+  --cielo-oscuro:  #121e2e;
+  --cielo-noche:   #0d1520;
+  --cielo-velo:    rgba(26, 42, 62, 0.15);
+
+  --crema:         #e0d8c8;
+  --crema-suave:   rgba(224, 216, 200, 0.65);
+  --crema-velo:    rgba(224, 216, 200, 0.12);
+
+  --borde:         rgba(255,255,255,0.10);
+  --borde-suave:   rgba(255,255,255,0.05);
+
+  --color-fondo:       var(--cielo);
+  --color-fondo-2:     var(--cielo-oscuro);
+  --color-card:        rgba(255,255,255,0.05);
+  --color-card-hover:  rgba(255,255,255,0.10);
+
+  --sombra-calida: 0 8px 32px rgba(240,196,48,0.15);
+  --sombra-azul:   0 8px 32px rgba(10,20,40,0.5);
+
+  color-scheme: dark;
 }

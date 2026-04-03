@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscripción | About Marketing</title>
+  <title>Inscripci&oacute;n | About Marketing</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+
+  <!-- MEJORA #7 — Preconnect a Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/navbar.css">
@@ -12,39 +17,50 @@
 </head>
 <body>
 
+  <!-- MEJORA #4 — Skip Navigation -->
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+  <!-- MEJORA #9 — Barra de progreso de scroll -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <div class="info-bar">
     <div class="contenedor info-bar__inner">
       <span class="info-bar__item">26 de marzo de 2026</span>
-      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
       <span class="info-bar__item">18:45 h</span>
-      <span class="info-bar__item info-bar__sep">·</span>
-      <span class="info-bar__item">Salón de Actos · IES Alonso de Avellaneda</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
+      <span class="info-bar__item">Sal&oacute;n de Actos &middot; IES Alonso de Avellaneda</span>
     </div>
   </div>
 
-  <nav class="navbar" aria-label="Navegación principal">
+  <nav class="navbar" aria-label="Navegaci&oacute;n principal">
     <div class="contenedor navbar__inner">
       <a href="../index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
         <span class="logo-am">am</span><span class="logo-punto"></span>
       </a>
-      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="navbar__hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false"><span></span><span></span><span></span></button>
       <ul class="navbar__menu">
         <li><a href="../index.html" class="navbar__link">Inicio</a></li>
         <li><a href="ponentes.html" class="navbar__link">Ponentes</a></li>
         <li><a href="agenda.html" class="navbar__link">Agenda</a></li>
         <li><a href="noticias.html" class="navbar__link">Noticias</a></li>
         <li><a href="contacto.html" class="navbar__link activo">Contacto</a></li>
-        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscr&iacute;bete</a></li>
       </ul>
     </div>
   </nav>
 
-  <main>
+  <!-- MEJORA #25 — Bot&oacute;n dark mode -->
+  <button class="tema-toggle" id="tema-toggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+    <span aria-hidden="true" id="tema-icono">&#9790;</span>
+  </button>
+
+  <main id="contenido-principal">
     <header class="page-header">
       <div class="contenedor" style="position:relative;z-index:1;">
-        <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Inscripción</span></nav>
+        <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Inscripci&oacute;n</span></nav>
         <span class="seccion-eyebrow">Reserva tu plaza</span>
-        <h1 class="seccion-titulo" style="font-size:clamp(3rem,9vw,7rem);">INSCRIPCIÓN</h1>
+        <h1 class="seccion-titulo" style="font-size:clamp(3rem,9vw,7rem);">INSCRIPCI&Oacute;N</h1>
         <p class="seccion-subtitulo">Entrada gratuita - aforo limitado</p>
       </div>
     </header>
@@ -59,13 +75,13 @@
               <div style="display:flex; gap:var(--s-4); padding:var(--s-4) var(--s-5); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radio-md); backdrop-filter:blur(8px);">
                 <div>
                   <p style="font-family:var(--fuente-display); font-size:var(--texto-sm); letter-spacing:0.1em; text-transform:uppercase; color:var(--blanco); margin-bottom:2px;">Fecha y hora</p>
-                  <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.45);">26 de marzo de 2026 · 18:45 h</p>
+                  <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.45);">26 de marzo de 2026 &middot; 18:45 h</p>
                 </div>
               </div>
               <div style="display:flex; gap:var(--s-4); padding:var(--s-4) var(--s-5); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radio-md); backdrop-filter:blur(8px);">
                 <div>
-                  <p style="font-family:var(--fuente-display); font-size:var(--texto-sm); letter-spacing:0.1em; text-transform:uppercase; color:var(--blanco); margin-bottom:2px;">Ubicación</p>
-                  <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.45);">Salón de Actos · IES Alonso de Avellaneda<br>Alcalá de Henares, Madrid</p>
+                  <p style="font-family:var(--fuente-display); font-size:var(--texto-sm); letter-spacing:0.1em; text-transform:uppercase; color:var(--blanco); margin-bottom:2px;">Ubicaci&oacute;n</p>
+                  <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.45);">Sal&oacute;n de Actos &middot; IES Alonso de Avellaneda<br>Alcal&aacute; de Henares, Madrid</p>
                 </div>
               </div>
               <div style="display:flex; gap:var(--s-4); padding:var(--s-4) var(--s-5); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radio-md); backdrop-filter:blur(8px);">
@@ -76,13 +92,13 @@
               </div>
             </div>
             <div style="padding:var(--s-5); background:rgba(240,196,48,0.06); border:1px solid rgba(240,196,48,0.15); border-radius:var(--radio-md);">
-              <span class="seccion-eyebrow" style="font-size:1.2rem; margin-bottom:var(--s-2); display:block;">¿Tienes dudas?</span>
-              <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.4);">Escríbenos a <a href="mailto:aboutmarketing@avellaneda.es">aboutmarketing@avellaneda.es</a></p>
+              <span class="seccion-eyebrow" style="font-size:1.2rem; margin-bottom:var(--s-2); display:block;">&iquest;Tienes dudas?</span>
+              <p style="font-size:var(--texto-sm); color:rgba(255,255,255,0.4);">Escr&iacute;benos a <a href="mailto:aboutmarketing@avellaneda.es">aboutmarketing@avellaneda.es</a></p>
             </div>
           </div>
 
           <div class="reveal reveal-delay-1">
-            <!-- Interconexión: js/formulario.js depende de este id y de los ids internos de cada campo -->
+            <!-- Interconexi&oacute;n: js/formulario.js depende de este id y de los ids internos -->
             <form class="formulario" id="formulario-contacto" novalidate>
               <div id="formulario-contenido">
                 <h2 style="font-family:var(--fuente-display); font-size:var(--texto-3xl); letter-spacing:0.04em; text-transform:uppercase; margin-bottom:var(--s-6);">Confirma tu asistencia</h2>
@@ -101,7 +117,7 @@
                 </div>
 
                 <div class="formulario__grupo">
-                  <label class="formulario__label" for="email">Correo electrónico <span>*</span></label>
+                  <label class="formulario__label" for="email">Correo electr&oacute;nico <span>*</span></label>
                   <input class="formulario__input" type="email" id="email" name="email" placeholder="tu@email.com" required autocomplete="email">
                   <span class="formulario__error-msg" id="error-email" role="alert"></span>
                 </div>
@@ -113,23 +129,23 @@
 
                 <div class="formulario__grupo">
                   <label class="formulario__label" for="mensaje">Mensaje <span>*</span></label>
-                  <textarea class="formulario__textarea" id="mensaje" name="mensaje" placeholder="¿Alguna duda o comentario?" required minlength="10"></textarea>
+                  <textarea class="formulario__textarea" id="mensaje" name="mensaje" placeholder="&iquest;Alguna duda o comentario?" required minlength="10"></textarea>
                   <span class="formulario__error-msg" id="error-mensaje" role="alert"></span>
                 </div>
 
                 <div class="formulario__checkbox-grupo">
                   <input class="formulario__checkbox" type="checkbox" id="privacidad" name="privacidad" required>
-                  <label class="formulario__checkbox-label" for="privacidad">He leído y acepto la <a href="#">política de privacidad</a>. <span style="color:#FF9090;">*</span></label>
+                  <label class="formulario__checkbox-label" for="privacidad">He le&iacute;do y acepto la <a href="#">pol&iacute;tica de privacidad</a>. <span style="color:#FF9090;">*</span></label>
                 </div>
                 <span class="formulario__error-msg" id="error-privacidad" role="alert" style="margin-top:calc(-1 * var(--s-4)); margin-bottom:var(--s-4); display:none;"></span>
 
-                <button type="submit" class="btn btn-primario formulario__submit">Confirmar inscripción</button>
+                <button type="submit" class="btn btn-primario formulario__submit">Confirmar inscripci&oacute;n</button>
                 <p style="text-align:center; font-size:var(--texto-xs); color:rgba(255,255,255,0.2); margin-top:var(--s-3); text-transform:uppercase; letter-spacing:0.1em;"><span style="color:#FF9090;">*</span> Campos obligatorios</p>
               </div>
 
               <div class="formulario__exito" id="formulario-exito">
-                <div class="formulario__exito-icono">✅</div>
-                <h3 class="formulario__exito-titulo">¡Confirmado!</h3>
+                <div class="formulario__exito-icono">&#10004;&#65039;</div>
+                <h3 class="formulario__exito-titulo">&iexcl;Confirmado!</h3>
                 <p class="formulario__exito-texto">Gracias por inscribirte. Te esperamos el <strong style="color:var(--amarillo);">26 de marzo a las 18:45 h</strong> en el IES Alonso de Avellaneda.</p>
                 <div style="margin-top:var(--s-8);"><a href="../index.html" class="btn btn-secundario">Volver al inicio</a></div>
               </div>
@@ -152,13 +168,13 @@
         <div class="footer__info">
           <p class="footer__tagline">About Marketing</p>
           <p class="footer__sub">Evento de marketing inmersivo</p>
-          <p style="font-size:0.75rem;font-family:var(--fuente-cuerpo);font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(0,0,0,0.35);margin-top:0.5rem;">26.03.2026 · 18:45 h · Salón de Actos</p>
+          <p style="font-size:0.75rem;font-family:var(--fuente-cuerpo);font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(0,0,0,0.35);margin-top:0.5rem;">26.03.2026 &middot; 18:45 h &middot; Sal&oacute;n de Actos</p>
         </div>
         <nav class="footer__links">
           <a href="ponentes.html" class="footer__link">Ponentes</a>
           <a href="agenda.html" class="footer__link">Agenda</a>
           <a href="noticias.html" class="footer__link">Noticias</a>
-          <a href="contacto.html" class="footer__link">Inscripción</a>
+          <a href="contacto.html" class="footer__link">Inscripci&oacute;n</a>
           <a href="#" class="footer__link">Instagram</a>
           <a href="#" class="footer__link">TikTok</a>
         </nav>
@@ -166,7 +182,7 @@
     </div>
     <div class="footer__bottom">
       <div class="contenedor footer__bottom-inner">
-        <p class="footer__copy">© 2026 About Marketing · IES Alonso de Avellaneda · 1.º DAW</p>
+        <p class="footer__copy">&copy; 2026 About Marketing &middot; IES Alonso de Avellaneda &middot; 1.&ordm; DAW</p>
       </div>
     </div>
   </footer>
@@ -175,8 +191,7 @@
   <script src="../js/formulario.js"></script>
   <script src="../js/animaciones.js"></script>
   <script src="../js/ticker.js"></script>
+  <script src="../js/mejoras.js"></script>
   <style>@media (max-width: 860px) { #layout-contacto { grid-template-columns: 1fr !important; } }</style>
 </body>
 </html>
-
-

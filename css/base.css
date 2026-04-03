@@ -1,8 +1,22 @@
 /* =============================================
-   ABOUT MARKETING — base.css FINAL
+   ABOUT MARKETING — base.css
    Reset, global, grano, utilidades, botones
+
+   MEJORAS IMPLEMENTADAS EN ESTE ARCHIVO:
+   #1  — prefers-reduced-motion (accesibilidad)
+   #2  — :focus-visible (navegación por teclado)
+   #4  — Skip navigation link (accesibilidad)
+   #9  — Barra de progreso de scroll
+   #13 — text-wrap: balance en titulares
+   #14 — text-wrap: pretty en párrafos
+   #15 — CSS nesting nativo (selectores anidados)
+   #16 — accent-color para checkboxes/radios
+   #24 — Skeleton loader mejorado con shimmer
+   #30 — Propiedades lógicas CSS
    ============================================= */
 
+
+/* ── RESET GLOBAL ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -14,7 +28,19 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+
+  /*
+   * MEJORA #16 — accent-color
+   * ------------------------------------------------
+   * Propiedad CSS moderna que cambia el color de los controles
+   * nativos del navegador: checkboxes, radios, range sliders, progress bars.
+   *
+   * Antes había que crear componentes custom para cambiar estos colores.
+   * Ahora con una sola línea se aplica a TODOS los controles nativos.
+   */
+  accent-color: var(--amarillo);
 }
+
 
 /* ── GRAIN OVERLAY — textura de película, como en imagen 3 ── */
 body::after {
@@ -29,8 +55,43 @@ body::after {
   mix-blend-mode: multiply;
 }
 
-h1,h2,h3,h4,h5,h6 { font-family: var(--fuente-display); line-height: 1.0; color: var(--blanco); }
-p { line-height: 1.7; color: var(--crema-suave); }
+
+/*
+ * MEJORA #13 — text-wrap: balance
+ * ------------------------------------------------
+ * Le dice al navegador que reparta el texto de los titulares
+ * de forma equilibrada entre las líneas, evitando "huérfanos"
+ * (una palabra suelta en la última línea).
+ *
+ * Antes: "Evento de marketing
+ *         inmersivo"
+ *
+ * Ahora: "Evento de marketing
+ *         inmersivo" (más equilibrado)
+ *
+ * Solo funciona en navegadores modernos (Chrome 114+, Firefox 121+).
+ * En navegadores antiguos se ignora sin romper nada (progressive enhancement).
+ */
+h1,h2,h3,h4,h5,h6 {
+  font-family: var(--fuente-display);
+  line-height: 1.0;
+  color: var(--blanco);
+  text-wrap: balance;
+}
+
+/*
+ * MEJORA #14 — text-wrap: pretty
+ * ------------------------------------------------
+ * Similar a balance, pero para párrafos largos.
+ * Evita que quede una sola palabra corta en la última línea.
+ * Es menos agresivo que balance (no redistribuye tanto el texto).
+ */
+p {
+  line-height: 1.7;
+  color: var(--crema-suave);
+  text-wrap: pretty;
+}
+
 a { color: var(--amarillo); text-decoration: none; transition: color var(--trans-r); }
 a:hover { color: var(--blanco); }
 img { max-width: 100%; display: block; }
@@ -38,25 +99,132 @@ ul,ol { list-style: none; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; }
 input,textarea,select { font-family: inherit; }
 
-/* ── CONTENEDOR ── */
+
+/* ══════════════════════════════════════════
+   MEJORA #4 — SKIP NAVIGATION (Saltar al contenido)
+   ══════════════════════════════════════════
+
+   Es un enlace invisible que aparece SOLO cuando el usuario
+   navega con el teclado (Tab). Permite saltar directamente al
+   contenido principal sin tener que tabular por todo el menú.
+
+   Es un requisito de accesibilidad WCAG 2.4.1 (nivel A).
+
+   HTML necesario en cada página:
+   <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+   <main id="contenido-principal">...</main>
+*/
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--s-4);
+  z-index: 10000;
+  padding: var(--s-3) var(--s-6);
+  background: var(--amarillo);
+  color: var(--cielo-noche);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: var(--texto-sm);
+  border-radius: 0 0 var(--radio-md) var(--radio-md);
+  text-decoration: none;
+  transition: top var(--trans-r);
+}
+
+/* Cuando el usuario hace Tab y el enlace recibe foco, aparece */
+.skip-link:focus {
+  top: 0;
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #2 — FOCUS VISIBLE
+   ══════════════════════════════════════════
+
+   :focus-visible es una pseudo-clase CSS moderna que SOLO se activa
+   cuando el navegador detecta que el foco es relevante para el usuario.
+
+   - Si haces clic con el ratón → NO aparece el outline (no molesta)
+   - Si usas Tab con el teclado → SÍ aparece el outline (necesario)
+
+   Esto es mucho mejor que :focus, que se activa siempre.
+
+   WCAG 2.4.11 exige que el indicador de foco sea visible.
+   Usamos un outline amarillo con offset para que se vea bien
+   sobre fondos oscuros.
+*/
+
+/* Eliminamos el outline por defecto del navegador */
+:focus {
+  outline: none;
+}
+
+/* Lo reemplazamos con uno mejor, solo para navegación por teclado */
+:focus-visible {
+  outline: 3px solid var(--amarillo);
+  outline-offset: 3px;
+  border-radius: var(--radio-sm);
+}
+
+/* Botones primarios: outline blanco porque el botón ya es amarillo */
+.btn-primario:focus-visible {
+  outline-color: var(--blanco);
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #9 — BARRA DE PROGRESO DE SCROLL
+   ══════════════════════════════════════════
+
+   Una barra fina en la parte superior que muestra
+   cuánto se ha scrolleado de la página.
+   El ancho se controla desde JavaScript (mejoras.js).
+*/
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--amarillo), var(--rojo));
+  z-index: 10001;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+
+/* ── CONTENEDOR ──
+ *
+ * MEJORA #30 — Propiedades lógicas
+ * ------------------------------------------------
+ * En vez de padding-left / padding-right usamos padding-inline.
+ * En vez de margin-top / margin-bottom usamos margin-block.
+ *
+ * "inline" = eje horizontal (en idiomas de izquierda a derecha)
+ * "block"  = eje vertical
+ *
+ * Ventaja: si la web se traduce a árabe (derecha a izquierda),
+ * los márgenes se adaptan automáticamente. Es más "universal".
+ */
 .contenedor {
   width: 100%;
   max-width: var(--ancho-max);
-  margin: 0 auto;
-  padding: 0 var(--s-8);
+  margin-inline: auto;
+  padding-inline: var(--s-8);
 }
 
 /* ── SECCIONES ── */
-.seccion { padding: var(--s-20) 0; }
+.seccion { padding-block: var(--s-20); }
 .seccion-alt { background: var(--cielo-oscuro); }
-.seccion-header { margin-bottom: var(--s-10); }
+.seccion-header { margin-block-end: var(--s-10); }
 
 .seccion-eyebrow {
   font-family: var(--fuente-script);
   font-size: 1.5rem;
   color: var(--amarillo);
   display: block;
-  margin-bottom: var(--s-2);
+  margin-block-end: var(--s-2);
   line-height: 1.2;
 }
 
@@ -67,7 +235,7 @@ input,textarea,select { font-family: inherit; }
   text-transform: uppercase;
   color: var(--blanco);
   line-height: 0.95;
-  margin-bottom: var(--s-3);
+  margin-block-end: var(--s-3);
 }
 
 .seccion-subtitulo {
@@ -77,7 +245,11 @@ input,textarea,select { font-family: inherit; }
   max-width: 480px;
 }
 
-/* ── BOTONES ── */
+
+/* ══════════════════════════════════════════
+   BOTONES
+   ══════════════════════════════════════════ */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -130,11 +302,15 @@ input,textarea,select { font-family: inherit; }
   border-radius: 0;
   gap: var(--s-2);
 }
-.btn-ghost::after { content: '→'; transition: transform var(--trans-n); display: inline-block; }
+.btn-ghost::after { content: '\2192'; transition: transform var(--trans-n); display: inline-block; }
 .btn-ghost:hover { color: var(--amarillo); }
 .btn-ghost:hover::after { transform: translateX(5px); }
 
-/* ── BADGES ── */
+
+/* ══════════════════════════════════════════
+   BADGES
+   ══════════════════════════════════════════ */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -167,16 +343,66 @@ input,textarea,select { font-family: inherit; }
   border: 1px solid var(--borde);
 }
 
-/* ── SKELETON ── */
+
+/* ══════════════════════════════════════════
+   MEJORA #24 — SKELETON LOADER MEJORADO
+   ══════════════════════════════════════════
+
+   Los skeleton screens muestran una "silueta" del contenido
+   mientras se cargan los datos reales (desde JSON, API, etc.).
+
+   Son mejores que un spinner porque:
+   1) Muestran la FORMA del contenido que vendrá
+   2) El usuario percibe que la carga es más rápida
+   3) No hay salto de layout cuando llega el contenido (menos CLS)
+
+   El efecto shimmer (brillo que se desplaza) da sensación de actividad.
+*/
+
 .skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.06) 25%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.06) 75%
+  );
   background-size: 200% 100%;
   animation: sk 1.5s ease infinite;
   border-radius: var(--radio-md);
 }
-@keyframes sk { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-/* ── REVEAL ── */
+/* Variantes de skeleton para diferentes formas de contenido */
+.skeleton-texto {
+  height: 1em;
+  margin-block-end: 0.5em;
+  width: 80%;
+}
+.skeleton-titulo {
+  height: 1.5em;
+  margin-block-end: 0.75em;
+  width: 60%;
+}
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.skeleton-imagen {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radio-md);
+}
+
+@keyframes sk {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+
+/* ══════════════════════════════════════════
+   REVEAL — animaciones de entrada al scroll
+   ══════════════════════════════════════════ */
+
 .reveal {
   opacity: 0;
   transform: translateY(20px);
@@ -187,13 +413,114 @@ input,textarea,select { font-family: inherit; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 
-/* ── UTILS ── */
+
+/* ══════════════════════════════════════════
+   UTILIDADES
+   ══════════════════════════════════════════ */
+
 .oculto { display: none !important; }
 .texto-acento { color: var(--amarillo); }
 
-/* ── RESPONSIVE ── */
+/*
+ * Clase para ocultar visualmente un elemento
+ * pero que siga siendo accesible para lectores de pantalla.
+ * Útil para textos que aportan contexto a usuarios con discapacidad visual.
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #25 — BOTÓN DE CAMBIO DE TEMA
+   ══════════════════════════════════════════
+
+   Botón circular en la esquina inferior izquierda
+   que permite alternar entre tema claro y oscuro.
+*/
+
+.tema-toggle {
+  position: fixed;
+  bottom: var(--s-6);
+  left: var(--s-6);
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-card);
+  border: 1px solid var(--borde);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all var(--trans-n);
+}
+.tema-toggle:hover {
+  background: var(--color-card-hover);
+  transform: scale(1.1);
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #1 — PREFERS-REDUCED-MOTION
+   ══════════════════════════════════════════
+
+   Esta media query detecta si el usuario ha activado
+   "Reducir movimiento" en la configuración de su sistema operativo
+   (macOS: Accesibilidad > Pantalla > Reducir movimiento
+    Windows: Configuración > Accesibilidad > Efectos visuales)
+
+   Es OBLIGATORIO para accesibilidad (WCAG 2.3.3).
+   Algunas personas sufren mareos o migrañas con las animaciones.
+
+   Cuando está activo:
+   - Todas las animaciones duran casi 0 (se ven instantáneas)
+   - Las transiciones se reducen a lo mínimo
+   - Parallax y efectos de scroll se desactivan
+
+   IMPORTANTE: usamos 0.01ms en vez de 0ms porque algunos
+   navegadores ignoran animation-duration: 0ms.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Desactivar parallax cuando el usuario no quiere movimiento */
+  .hero__parallax {
+    transform: none !important;
+  }
+
+  /* Los reveals aparecen directamente sin animación */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+
 @media (max-width: 768px) {
-  .contenedor { padding: 0 var(--s-5); }
-  .seccion { padding: var(--s-16) 0; }
+  .contenedor { padding-inline: var(--s-5); }
+  .seccion { padding-block: var(--s-16); }
   .seccion-titulo { font-size: var(--texto-3xl); }
 }

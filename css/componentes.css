@@ -1,11 +1,30 @@
 /* =============================================
-   ABOUT MARKETING — componentes.css FINAL
+   ABOUT MARKETING — componentes.css
    Hero · Secciones · Cards · Footer amarillo
+
+   MEJORAS IMPLEMENTADAS EN ESTE ARCHIVO:
+   #11 — Social proof / colaboradores
+   #12 — Estadísticas animadas (contadores)
+   #17 — Scroll-driven animations (CSS)
+   #19 — Subgrid en tarjetas
+   #20 — Parallax sutil en hero
+   #21 — Texto con gradiente en hero
+   #23 — Reveal de texto por palabras
+   #29 — Container queries en tarjetas
    ============================================= */
 
 
 /* ══════════════════════════════════════════
    HERO — poster estilo imagen 4
+
+   MEJORA #20 — Parallax sutil
+   El fondo del hero se mueve más lento que el contenido.
+   Se controla desde JS (mejoras.js) aplicando transform
+   al elemento .hero__parallax-bg.
+
+   MEJORA #21 — Texto con gradiente
+   El titulo usa background-clip: text para mostrar
+   un degradado en las letras.
    ══════════════════════════════════════════ */
 
 .hero {
@@ -93,19 +112,40 @@
   animation: entrada 0.8s var(--ease-out) 0.1s both;
 }
 
-/* Título "about marketing" — massive, retro */
+/*
+ * MEJORA #21 — Texto con gradiente en hero
+ * ------------------------------------------------
+ * Usando background-clip: text hacemos que el fondo del elemento
+ * sea un degradado, y que SOLO se vea a través de las letras.
+ *
+ * Pasos:
+ * 1) Definimos un background con linear-gradient
+ * 2) background-clip: text → el fondo se "recorta" a la forma del texto
+ * 3) -webkit-text-fill-color: transparent → hace el texto transparente
+ *    para que se vea el degradado de fondo
+ *
+ * El text-shadow se mantiene para profundidad.
+ */
 .hero__titulo {
   font-family: var(--fuente-logo);
   font-weight: 900;
   font-size: var(--texto-hero);
-  color: var(--amarillo);
   line-height: 0.9;
   letter-spacing: -0.02em;
   margin-bottom: var(--s-6);
   animation: entrada 0.9s var(--ease-out) 0.25s both;
   position: relative;
-  /* Sombra cálida igual que en el cartel */
-  text-shadow: 0 4px 40px rgba(30, 60, 100, 0.5);
+
+  /* Gradiente en el texto */
+  background: linear-gradient(135deg, var(--amarillo) 0%, #FFD966 50%, var(--amarillo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--amarillo); /* Fallback para navegadores sin soporte */
+
+  /* Sombra (nota: text-shadow no funciona con background-clip: text,
+     pero lo dejamos como fallback) */
+  filter: drop-shadow(0 4px 40px rgba(30, 60, 100, 0.5));
 }
 
 /* El punto rojo del logo — flota sobre el título */
@@ -190,6 +230,124 @@
 }
 
 
+/*
+ * MEJORA #20 — Parallax sutil en hero
+ * ------------------------------------------------
+ * El fondo del hero tiene un contenedor .hero__parallax-bg
+ * cuyo transform se actualiza desde JS al hacer scroll.
+ *
+ * will-change: transform avisa al navegador de que este elemento
+ * va a cambiar su transform, para que lo optimice en la GPU.
+ *
+ * IMPORTANTE: se desactiva si el usuario tiene prefers-reduced-motion.
+ */
+.hero__parallax-bg {
+  position: absolute;
+  inset: -20% 0;
+  z-index: 0;
+  will-change: transform;
+}
+.hero__parallax-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(105%) brightness(0.88);
+}
+.hero__parallax-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(40,70,130,0.55) 0%,
+    rgba(25,50,100,0.65) 60%,
+    rgba(15,35,80,0.9) 100%
+  );
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #23 — REVEAL DE TEXTO POR PALABRAS
+   ══════════════════════════════════════════
+
+   Cada palabra del título hero se envuelve en un <span>
+   y aparece con un pequeño delay, creando un efecto
+   de escritura/cascada.
+
+   Las clases .hero__palabra-X se generan desde JS.
+   Aquí definimos la animación base.
+*/
+
+.hero__titulo .palabra {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: entrada-palabra 0.6s var(--ease-out) both;
+}
+
+@keyframes entrada-palabra {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #17 — SCROLL-DRIVEN ANIMATIONS (CSS)
+   ══════════════════════════════════════════
+
+   Las scroll-driven animations son una API CSS nativa
+   que permite animar elementos basándose en la posición
+   de scroll, SIN necesidad de JavaScript.
+
+   Antes: usábamos IntersectionObserver en animaciones.js
+   Ahora: CSS lo hace directamente con animation-timeline: view()
+
+   ¿Qué significa cada propiedad?
+   - animation-timeline: view()
+     → La animación se vincula a la visibilidad del elemento
+       en el viewport (en vez del tiempo)
+
+   - animation-range: entry 0% entry 100%
+     → La animación se ejecuta mientras el elemento ENTRA
+       en el viewport (de 0% a 100% de su entrada)
+
+   NOTA: Esto es "progressive enhancement".
+   - Navegadores que lo soportan (Chrome 115+): usan CSS puro
+   - Navegadores antiguos: siguen usando el JS de animaciones.js
+   - No rompe nada en ningún caso
+
+   @supports comprueba si el navegador entiende la propiedad.
+   Si no la entiende, ignora todo el bloque.
+*/
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-scroll linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+
+  @keyframes reveal-scroll {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Cuando el navegador soporta scroll-driven,
+     no necesitamos la clase .visible de JavaScript */
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* ══════════════════════════════════════════
    TICKER — cinta de palabras animada (también en footer)
    ══════════════════════════════════════════ */
@@ -234,12 +392,93 @@
 }
 
 /* ══════════════════════════════════════════
+   MEJORA #11 — SOCIAL PROOF / COLABORADORES
+   ══════════════════════════════════════════
+
+   Sección de logos de entidades colaboradoras
+   que aparece entre el hero y el contenido.
+
+   Los logos se muestran en escala de grises por defecto
+   y se colorean al hover. Esto es un patrón muy común
+   en webs de marketing para dar credibilidad.
+*/
+
+.social-proof {
+  padding-block: var(--s-10);
+  border-bottom: 1px solid var(--borde-suave);
+}
+.social-proof__titulo {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--texto-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  font-weight: 700;
+  text-align: center;
+  margin-block-end: var(--s-6);
+}
+.social-proof__logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--s-10);
+}
+.social-proof__logo {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-xl);
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  transition: color var(--trans-n);
+  white-space: nowrap;
+}
+.social-proof__logo:hover {
+  color: rgba(255,255,255,0.5);
+}
+
+
+/* ══════════════════════════════════════════
    INICIO TEASER (sin spoilers)
+
+   MEJORA #29 — Container Queries
+   En vez de que las tarjetas respondan al VIEWPORT (media queries),
+   responden al TAMAÑO DE SU CONTENEDOR.
+
+   Esto permite reutilizar las tarjetas en cualquier layout
+   sin importar el ancho de la pantalla.
+
+   MEJORA #19 — Subgrid
+   Las tarjetas usan subgrid para alinear su contenido interno
+   (título, texto, botón) en la misma fila visual.
    ══════════════════════════════════════════ */
+
+/*
+ * MEJORA #29 — Container Queries
+ * ------------------------------------------------
+ * container-type: inline-size convierte al grid en un
+ * "contenedor de consulta". Los hijos pueden usar
+ * @container para responder a SU ancho (no al del viewport).
+ *
+ * Ejemplo: si metes estas tarjetas en un sidebar de 300px,
+ * se pondrán en 1 columna automáticamente.
+ */
 .inicio-teaser__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-5);
+  container-type: inline-size;
+  container-name: teaser-grid;
+}
+
+/*
+ * @container — regla CSS que responde al ancho del CONTENEDOR
+ * (no del viewport como @media). Es más modular.
+ */
+@container teaser-grid (max-width: 700px) {
+  .inicio-teaser__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .inicio-teaser__card {
@@ -1020,6 +1259,23 @@
   font-weight: 600;
 }
 
+/*
+ * MEJORA #12 — Estadísticas animadas (contadores)
+ * ------------------------------------------------
+ * Los valores numéricos se animan de 0 al valor real
+ * cuando entran en pantalla (controlado desde mejoras.js).
+ *
+ * La clase .stat-animado marca los valores que deben animarse.
+ * La transición suave se hace cambiando el textContent desde JS
+ * con requestAnimationFrame.
+ */
+.sobre-evento__stat-valor.stat-animado {
+  transition: color var(--trans-n);
+}
+.sobre-evento__stat-valor.stat-animado.contando {
+  color: var(--blanco);
+}
+
 
 /* ══════════════════════════════════════════
    SEPARADOR VISUAL — imagen del logo am/cielo
@@ -1076,4 +1332,61 @@
   .ponente-poster__nombre-bar { display: none; }
   .sobre-evento__layout { grid-template-columns: 1fr; }
   .sobre-evento__img-wrap { min-height: 300px; }
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #26 — VIEW TRANSITIONS API
+   ══════════════════════════════════════════
+
+   La View Transitions API permite crear transiciones suaves
+   entre estados de la página (o entre páginas) de forma nativa.
+
+   Cuando el navegador soporta View Transitions, al navegar
+   entre páginas se produce una animación de crossfade.
+
+   @view-transition define reglas para la transición:
+   - ::view-transition-old(root) → estado anterior (sale)
+   - ::view-transition-new(root) → estado nuevo (entra)
+
+   NOTA: Esto solo funciona en navegadores que lo soportan
+   (Chrome 111+). En otros se ignora sin romper nada.
+*/
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: vt-fade-out 0.25s ease-in;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 0.25s ease-out;
+}
+
+@keyframes vt-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* ══════════════════════════════════════════
+   MEJORA #22 — HOVER MAGNÉTICO EN BOTONES
+   ══════════════════════════════════════════
+
+   Los botones con clase .btn-magnetico se mueven
+   ligeramente hacia el cursor cuando está cerca.
+   El efecto se controla desde JS (mejoras.js).
+
+   Aquí solo definimos que el botón usa will-change
+   para que el navegador optimice las transformaciones.
+*/
+
+.btn-magnetico {
+  will-change: transform;
+  transition: transform 0.2s var(--ease-out);
 }

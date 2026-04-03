@@ -1,8 +1,13 @@
 /* =============================================
-   ABOUT MARKETING — navbar.css FINAL
-   Estructura nueva: info bar arriba + nav limpia
+   ABOUT MARKETING — navbar.css
+   Estructura: info bar arriba + nav limpia
    Logo: am con punto rojo, en Nunito Black
+
+   MEJORAS IMPLEMENTADAS EN ESTE ARCHIVO:
+   #10 — CTA sticky en móvil (botón fijo inferior)
+   #30 — Propiedades lógicas CSS
    ============================================= */
+
 
 /* ── INFO BAR — franja pequeña encima del nav ── */
 .info-bar {
@@ -36,6 +41,7 @@
 }
 .info-bar__sep { color: rgba(255,255,255,0.12); }
 
+
 /* ── NAVBAR PRINCIPAL ── */
 .navbar {
   position: fixed;
@@ -60,6 +66,7 @@
   justify-content: space-between;
   width: 100%;
 }
+
 
 /* ── LOGO — am con punto rojo ── */
 .navbar__logo {
@@ -99,6 +106,7 @@
   92%           { transform: scale(1.3); }
 }
 
+
 /* ── MENÚ ── */
 .navbar__menu {
   display: flex;
@@ -133,6 +141,7 @@
 
 .navbar__cta { padding: 0.55rem 1.4rem; font-size: var(--texto-xs); border-radius: var(--radio-full); }
 
+
 /* ── HAMBURGUESA ── */
 .navbar__hamburguesa {
   display: none;
@@ -148,11 +157,67 @@
 .navbar__hamburguesa.abierto span:nth-child(2) { opacity: 0; }
 .navbar__hamburguesa.abierto span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--amarillo); }
 
+
 /* ── OFFSET PARA CONTENIDO ── */
 /* El body necesita padding para no quedar bajo las barras fijas */
 body { padding-top: 94px; }
 
-/* ── RESPONSIVE ── */
+
+/* ══════════════════════════════════════════
+   MEJORA #10 — CTA STICKY EN MÓVIL
+   ══════════════════════════════════════════
+
+   Un botón fijo en la parte inferior de la pantalla
+   que aparece cuando el usuario hace scroll en móvil.
+
+   Esto es un patrón muy común en webs de marketing modernas.
+   El botón siempre está accesible sin tener que volver arriba.
+
+   Comportamiento:
+   - Oculto por defecto (translateY lo saca de la pantalla)
+   - JavaScript añade .visible cuando el usuario pasa el hero
+   - Solo aparece en pantallas <= 768px (móvil/tablet)
+
+   WCAG 2.5.8: el target mínimo es 44x44px (nosotros usamos 48px alto)
+*/
+
+.cta-sticky-movil {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cta-sticky-movil {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    padding: var(--s-3) var(--s-5);
+    background: rgba(37, 62, 98, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    transform: translateY(100%);
+    transition: transform var(--trans-n);
+    /* Espacio seguro para iPhones con barra Home */
+    padding-bottom: max(var(--s-3), env(safe-area-inset-bottom));
+  }
+  .cta-sticky-movil.visible {
+    transform: translateY(0);
+  }
+  .cta-sticky-movil .btn {
+    width: 100%;
+    justify-content: center;
+    padding-block: 0.9rem;
+  }
+}
+
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+
 @media (max-width: 768px) {
   .info-bar { display: none; }
   .navbar { top: 0; }

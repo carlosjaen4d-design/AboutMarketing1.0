@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ponentes.js
  * --------------------------------------------------------------
  * INTERCONEXIÓN DEL MÓDULO
@@ -7,6 +7,12 @@
  * - Clases visuales: /css/componentes.css (bloques PONENTES y MODAL)
  *
  * Además, controla un modal de detalle con bloqueo de scroll.
+ *
+ * MEJORA #3 — Focus trap en modal
+ * --------------------------------
+ * Cuando un modal está abierto, el foco del teclado queda
+ * "atrapado" dentro del modal. No puede escapar al contenido
+ * de detrás. Esto es OBLIGATORIO para accesibilidad (WCAG 2.4.3).
  *
  * IMPORTANTE SOBRE IMÁGENES:
  * - foto / fotoRelativa: se usan en tarjetas (sección pósters)
@@ -180,9 +186,84 @@ function pintarRedesSociales(redes) {
   });
 }
 
+/**
+ * Variable para guardar qué elemento tenía el foco
+ * ANTES de abrir el modal. Al cerrar, devolvemos el foco ahí.
+ * Esto es una buena práctica de accesibilidad.
+ */
+let elementoConFocoAnterior = null;
+
+/**
+ * MEJORA #3 — Focus Trap (trampa de foco)
+ * ------------------------------------------------
+ * Cuando un modal está abierto, al pulsar Tab el foco
+ * debe quedarse DENTRO del modal. No puede ir al contenido de detrás.
+ *
+ * Funcionamiento:
+ * 1) Buscamos todos los elementos "focusables" dentro del modal
+ * 2) Si el usuario pulsa Tab en el ÚLTIMO elemento, volvemos al PRIMERO
+ * 3) Si pulsa Shift+Tab en el PRIMERO, volvemos al ÚLTIMO
+ *
+ * Esto crea un "ciclo cerrado" de navegación por teclado.
+ */
+function activarFocusTrap(modal) {
+  // Selector que encuentra TODOS los elementos que pueden recibir foco
+  const selectoresFocusables = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'textarea:not([disabled])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(', ');
+
+  function manejarTab(evento) {
+    if (evento.key !== 'Tab') return;
+
+    // Buscamos los elementos focusables CADA VEZ que se pulsa Tab
+    // (por si el contenido del modal ha cambiado dinámicamente)
+    const elementosFocusables = modal.querySelectorAll(selectoresFocusables);
+    if (elementosFocusables.length === 0) return;
+
+    const primerElemento = elementosFocusables[0];
+    const ultimoElemento = elementosFocusables[elementosFocusables.length - 1];
+
+    if (evento.shiftKey) {
+      // Shift + Tab: si estamos en el primer elemento, ir al último
+      if (document.activeElement === primerElemento) {
+        evento.preventDefault();
+        ultimoElemento.focus();
+      }
+    } else {
+      // Tab normal: si estamos en el último elemento, ir al primero
+      if (document.activeElement === ultimoElemento) {
+        evento.preventDefault();
+        primerElemento.focus();
+      }
+    }
+  }
+
+  // Guardamos referencia al handler para poder eliminarlo al cerrar
+  modal._focusTrapHandler = manejarTab;
+  document.addEventListener('keydown', manejarTab);
+}
+
+/**
+ * Desactiva la trampa de foco cuando se cierra el modal.
+ */
+function desactivarFocusTrap(modal) {
+  if (modal._focusTrapHandler) {
+    document.removeEventListener('keydown', modal._focusTrapHandler);
+    modal._focusTrapHandler = null;
+  }
+}
+
 function abrirModalPonente(ponente) {
   const overlay = document.getElementById('modal-ponente');
   if (!overlay) return;
+
+  // Guardamos el elemento que tenía el foco antes de abrir
+  elementoConFocoAnterior = document.activeElement;
 
   document.getElementById('modal-foto').src = resolverRutaFotoModal(ponente);
   document.getElementById('modal-foto').alt = ponente.nombre;
@@ -197,14 +278,34 @@ function abrirModalPonente(ponente) {
 
   overlay.classList.add('activo');
   document.body.style.overflow = 'hidden';
+
+  // MEJORA #3: Activamos focus trap y movemos el foco al modal
+  const modal = overlay.querySelector('.modal');
+  activarFocusTrap(modal);
+
+  // Ponemos el foco en el botón de cerrar (primer elemento interactivo)
+  const botonCerrar = document.getElementById('modal-cerrar');
+  if (botonCerrar) {
+    botonCerrar.focus();
+  }
 }
 
 function cerrarModalPonente() {
   const overlay = document.getElementById('modal-ponente');
   if (!overlay) return;
 
+  // MEJORA #3: Desactivamos la trampa de foco
+  const modal = overlay.querySelector('.modal');
+  desactivarFocusTrap(modal);
+
   overlay.classList.remove('activo');
   document.body.style.overflow = '';
+
+  // Devolvemos el foco al elemento que lo tenía antes de abrir el modal
+  if (elementoConFocoAnterior) {
+    elementoConFocoAnterior.focus();
+    elementoConFocoAnterior = null;
+  }
 }
 
 function animarTarjetas(contenedor) {
