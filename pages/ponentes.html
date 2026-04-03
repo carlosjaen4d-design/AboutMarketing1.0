@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ponentes | About Marketing</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+
+  <!-- MEJORA #7 — Preconnect a Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/navbar.css">
@@ -12,34 +17,45 @@
 </head>
 <body>
 
+  <!-- MEJORA #4 — Skip Navigation -->
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+  <!-- MEJORA #9 — Barra de progreso de scroll -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <div class="info-bar">
     <div class="contenedor info-bar__inner">
       <span class="info-bar__item">26 de marzo de 2026</span>
-      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
       <span class="info-bar__item">18:45 h</span>
-      <span class="info-bar__item info-bar__sep">·</span>
-      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda &middot; Alcal&aacute; de Henares</span>
     </div>
   </div>
 
-  <nav class="navbar" aria-label="Navegación principal">
+  <nav class="navbar" aria-label="Navegaci&oacute;n principal">
     <div class="contenedor navbar__inner">
       <a href="../index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
         <span class="logo-am">am</span><span class="logo-punto"></span>
       </a>
-      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="navbar__hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false"><span></span><span></span><span></span></button>
       <ul class="navbar__menu">
         <li><a href="../index.html" class="navbar__link">Inicio</a></li>
         <li><a href="ponentes.html" class="navbar__link activo">Ponentes</a></li>
         <li><a href="agenda.html" class="navbar__link">Agenda</a></li>
         <li><a href="noticias.html" class="navbar__link">Noticias</a></li>
         <li><a href="contacto.html" class="navbar__link">Contacto</a></li>
-        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscr&iacute;bete</a></li>
       </ul>
     </div>
   </nav>
 
-  <main>
+  <!-- MEJORA #25 — Bot&oacute;n dark mode -->
+  <button class="tema-toggle" id="tema-toggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+    <span aria-hidden="true" id="tema-icono">&#9790;</span>
+  </button>
+
+  <main id="contenido-principal">
     <header class="page-header" style="background-image: url('../assets/img/am-cielo.png'); background-size: cover; background-position: center; position: relative;">
       <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(30,55,110,0.7), rgba(15,35,80,0.85));"></div>
       <div class="contenedor" style="position:relative; z-index:1;">
@@ -52,15 +68,20 @@
 
     <section class="seccion">
       <div class="contenedor">
-        <!-- Interconexión: js/ponentes.js renderiza aquí tarjetas desde data/ponentes.json -->
+        <!-- Interconexi&oacute;n: js/ponentes.js renderiza aqu&iacute; tarjetas desde data/ponentes.json -->
         <div class="ponentes__grid"></div>
       </div>
     </section>
 
     <div class="separador-cielo" role="presentation" style="height:220px;">
-      <img src="../assets/img/am-cielo.png" alt="" aria-hidden="true" loading="lazy">
+      <img src="../assets/img/am-cielo.png" alt="" aria-hidden="true" loading="lazy" width="1920" height="400">
     </div>
   </main>
+
+  <!-- MEJORA #10 — CTA sticky m&oacute;vil -->
+  <div class="cta-sticky-movil" id="cta-sticky" aria-label="Inscripci&oacute;n r&aacute;pida">
+    <a href="contacto.html" class="btn btn-primario">Inscr&iacute;bete ahora</a>
+  </div>
 
   <footer class="footer">
     <div class="footer__ticker-wrapper">
@@ -72,13 +93,13 @@
         <div class="footer__info">
           <p class="footer__tagline">About Marketing</p>
           <p class="footer__sub">Evento de marketing inmersivo</p>
-          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:0.5rem;">26.03.2026 · 18:45 h · IES Alonso de Avellaneda</p>
+          <p style="font-size:0.72rem; font-family:var(--fuente-cuerpo); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(0,0,0,0.3); margin-top:0.5rem;">26.03.2026 &middot; 18:45 h &middot; IES Alonso de Avellaneda</p>
         </div>
         <nav class="footer__links">
           <a href="ponentes.html" class="footer__link">Ponentes</a>
           <a href="agenda.html" class="footer__link">Agenda</a>
           <a href="noticias.html" class="footer__link">Noticias</a>
-          <a href="contacto.html" class="footer__link">Inscripción</a>
+          <a href="contacto.html" class="footer__link">Inscripci&oacute;n</a>
           <a href="#" class="footer__link">Instagram</a>
           <a href="#" class="footer__link">TikTok</a>
         </nav>
@@ -86,7 +107,7 @@
     </div>
     <div class="footer__bottom">
       <div class="contenedor footer__bottom-inner">
-        <p class="footer__copy">© 2026 About Marketing · IES Alonso de Avellaneda · 1.º DAW</p>
+        <p class="footer__copy">&copy; 2026 About Marketing &middot; IES Alonso de Avellaneda &middot; 1.&ordm; DAW</p>
       </div>
     </div>
   </footer>
@@ -95,7 +116,6 @@
   <script src="../js/ponentes.js"></script>
   <script src="../js/animaciones.js"></script>
   <script src="../js/ticker.js"></script>
+  <script src="../js/mejoras.js"></script>
 </body>
 </html>
-
-

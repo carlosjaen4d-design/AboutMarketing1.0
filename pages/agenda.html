@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agenda | About Marketing</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
+
+  <!-- MEJORA #7 — Preconnect a Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/navbar.css">
@@ -12,38 +17,49 @@
 </head>
 <body>
 
+  <!-- MEJORA #4 — Skip Navigation -->
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+  <!-- MEJORA #9 — Barra de progreso de scroll -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <div class="info-bar">
     <div class="contenedor info-bar__inner">
       <span class="info-bar__item">26 de marzo de 2026</span>
-      <span class="info-bar__item info-bar__sep">·</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
       <span class="info-bar__item">18:45 h</span>
-      <span class="info-bar__item info-bar__sep">·</span>
-      <span class="info-bar__item">IES Alonso de Avellaneda · Alcalá de Henares</span>
+      <span class="info-bar__item info-bar__sep">&middot;</span>
+      <span class="info-bar__item">IES Alonso de Avellaneda &middot; Alcal&aacute; de Henares</span>
     </div>
   </div>
 
-  <nav class="navbar" aria-label="Navegación principal">
+  <nav class="navbar" aria-label="Navegaci&oacute;n principal">
     <div class="contenedor navbar__inner">
       <a href="../index.html" class="navbar__logo" aria-label="About Marketing - Inicio">
         <span class="logo-am">am</span><span class="logo-punto"></span>
       </a>
-      <button class="navbar__hamburguesa" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="navbar__hamburguesa" aria-label="Abrir men&uacute;" aria-expanded="false"><span></span><span></span><span></span></button>
       <ul class="navbar__menu">
         <li><a href="../index.html" class="navbar__link">Inicio</a></li>
         <li><a href="ponentes.html" class="navbar__link">Ponentes</a></li>
         <li><a href="agenda.html" class="navbar__link activo">Agenda</a></li>
         <li><a href="noticias.html" class="navbar__link">Noticias</a></li>
         <li><a href="contacto.html" class="navbar__link">Contacto</a></li>
-        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscríbete</a></li>
+        <li><a href="contacto.html" class="btn btn-primario navbar__cta">Inscr&iacute;bete</a></li>
       </ul>
     </div>
   </nav>
 
-  <main>
+  <!-- MEJORA #25 — Bot&oacute;n dark mode -->
+  <button class="tema-toggle" id="tema-toggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+    <span aria-hidden="true" id="tema-icono">&#9790;</span>
+  </button>
+
+  <main id="contenido-principal">
     <header class="page-header">
       <div class="contenedor">
         <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Agenda</span></nav>
-        <span class="seccion-eyebrow">Programación</span>
+        <span class="seccion-eyebrow">Programaci&oacute;n</span>
         <h1 class="seccion-titulo">AGENDA DEL EVENTO</h1>
         <p class="seccion-subtitulo">Horarios, sesiones y momentos clave de About Marketing.</p>
       </div>
@@ -51,11 +67,16 @@
 
     <section class="seccion">
       <div class="contenedor">
-        <!-- Interconexión: js/agenda.js renderiza aquí la timeline desde data/agenda.json -->
+        <!-- Interconexi&oacute;n: js/agenda.js renderiza aqu&iacute; la timeline desde data/agenda.json -->
         <div class="agenda__lista"></div>
       </div>
     </section>
   </main>
+
+  <!-- MEJORA #10 — CTA sticky m&oacute;vil -->
+  <div class="cta-sticky-movil" id="cta-sticky" aria-label="Inscripci&oacute;n r&aacute;pida">
+    <a href="contacto.html" class="btn btn-primario">Inscr&iacute;bete ahora</a>
+  </div>
 
   <footer class="footer">
     <div class="footer__main">
@@ -69,7 +90,7 @@
           <a href="ponentes.html" class="footer__link">Ponentes</a>
           <a href="agenda.html" class="footer__link">Agenda</a>
           <a href="noticias.html" class="footer__link">Noticias</a>
-          <a href="contacto.html" class="footer__link">Inscripción</a>
+          <a href="contacto.html" class="footer__link">Inscripci&oacute;n</a>
         </nav>
       </div>
     </div>
@@ -77,7 +98,6 @@
 
   <script src="../js/navbar.js"></script>
   <script src="../js/agenda.js"></script>
+  <script src="../js/mejoras.js"></script>
 </body>
 </html>
-
-
