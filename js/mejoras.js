@@ -435,10 +435,17 @@ function registrarServiceWorker() {
   // Comprobamos si el navegador soporta Service Workers
   if (!('serviceWorker' in navigator)) return;
 
+  // Ruta relativa al SW según la ubicación de la página.
+  // Necesario para que funcione en GitHub Pages (donde la raíz
+  // no es "/" sino "/NombreRepo/").
+  const rutaSW = window.location.pathname.includes('/pages/')
+    ? '../sw.js'
+    : 'sw.js';
+
   // Esperamos a que la página cargue completamente antes de registrar
   // (para no competir por ancho de banda con la carga inicial)
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
+    navigator.serviceWorker.register(rutaSW).catch(() => {
       // Silenciamos el error — es esperado en desarrollo local
     });
   });

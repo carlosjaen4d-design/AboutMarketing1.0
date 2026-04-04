@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ponentes | About Marketing</title>
+  <title>Ponente | About Marketing</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📣</text></svg>">
 
   <!-- MEJORA #7 — Preconnect a Google Fonts -->
@@ -55,21 +55,47 @@
     <span aria-hidden="true" id="tema-icono">&#9790;</span>
   </button>
 
+  <!--
+    REQUISITO 3 — Página individual de cada ponente, generada dinámicamente.
+    =========================================================================
+    Esta página es una PLANTILLA vacía. El contenido se inyecta desde JS
+    según el parámetro ?id= de la URL.
+
+    Ejemplo: ponente.html?id=luis-montalvo → carga datos de Luis Montalvo.
+
+    Interconexión:
+    - js/ponente-detalle.js lee ?id= y busca en data/ponentes.json
+    - Las clases .ponente-detalle* se estilizan en css/componentes.css
+    - El enlace a esta página se genera en js/ponentes.js (modal)
+  -->
   <main id="contenido-principal">
     <header class="page-header" style="background-image: url('../assets/img/am-cielo.png'); background-size: cover; background-position: center; position: relative;">
       <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(30,55,110,0.7), rgba(15,35,80,0.85));"></div>
       <div class="contenedor" style="position:relative; z-index:1;">
-        <nav class="breadcrumb"><a href="../index.html">Inicio</a> / <span>Ponentes</span></nav>
-        <span class="seccion-eyebrow">En el escenario</span>
-        <h1 class="seccion-titulo" style="font-size:clamp(3rem,9vw,7rem);">LOS PONENTES</h1>
-        <p class="seccion-subtitulo">Perfiles y sesiones de los profesionales invitados.</p>
+        <nav class="breadcrumb">
+          <a href="../index.html">Inicio</a> /
+          <a href="ponentes.html">Ponentes</a> /
+          <span id="breadcrumb-nombre">Cargando...</span>
+        </nav>
+        <span class="seccion-eyebrow">Perfil del ponente</span>
+        <h1 class="seccion-titulo" id="page-titulo" style="font-size:clamp(2.5rem,7vw,5rem);">Cargando...</h1>
       </div>
     </header>
 
     <section class="seccion">
       <div class="contenedor">
-        <!-- Interconexi&oacute;n: js/ponentes.js renderiza aqu&iacute; tarjetas desde data/ponentes.json -->
-        <div class="ponentes__grid"></div>
+        <!-- Skeleton loader mientras se carga el contenido dinámico -->
+        <div id="ponente-detalle">
+          <div class="ponente-detalle__layout">
+            <div class="skeleton skeleton-imagen" style="width:200px; height:280px; border-radius:12px;"></div>
+            <div style="flex:1;">
+              <div class="skeleton skeleton-titulo" style="width:60%; margin-bottom:1rem;"></div>
+              <div class="skeleton skeleton-texto" style="width:40%; margin-bottom:0.5rem;"></div>
+              <div class="skeleton skeleton-texto" style="width:80%; margin-bottom:0.5rem;"></div>
+              <div class="skeleton skeleton-texto" style="width:70%;"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -113,7 +139,7 @@
   </footer>
 
   <script src="../js/navbar.js"></script>
-  <script src="../js/ponentes.js"></script>
+  <script src="../js/ponente-detalle.js"></script>
   <script src="../js/animaciones.js"></script>
   <script src="../js/ticker.js"></script>
   <script src="../js/mejoras.js"></script>
