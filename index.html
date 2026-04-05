@@ -115,6 +115,50 @@
             <a href="pages/contacto.html" class="btn btn-primario btn-magnetico">Reserva tu plaza</a>
             <a href="pages/ponentes.html" class="btn btn-secundario btn-magnetico">Ver ponentes</a>
           </div>
+
+          <!--
+            COUNTDOWN — Cuenta atr&aacute;s hasta el d&iacute;a del evento.
+            =============================================================
+            Cada .countdown__bloque muestra un n&uacute;mero con efecto "flip".
+            El JS (mejoras.js → inicializarCountdown) actualiza los valores
+            cada segundo comparando Date.now() con la fecha del evento.
+
+            Si el evento ya pas&oacute;, se oculta autom&aacute;ticamente.
+
+            Interconexi&oacute;n:
+            - JS: js/mejoras.js (funci&oacute;n inicializarCountdown)
+            - CSS: css/componentes.css (bloque COUNTDOWN)
+            - Constante compartida con js/agenda.js (FECHA_EVENTO = '2026-03-26')
+          -->
+          <div class="countdown" id="countdown" aria-label="Cuenta atr&aacute;s para el evento">
+            <div class="countdown__bloque">
+              <div class="countdown__flip" id="countdown-dias">
+                <span class="countdown__numero">00</span>
+              </div>
+              <span class="countdown__etiqueta">D&iacute;as</span>
+            </div>
+            <span class="countdown__separador" aria-hidden="true">:</span>
+            <div class="countdown__bloque">
+              <div class="countdown__flip" id="countdown-horas">
+                <span class="countdown__numero">00</span>
+              </div>
+              <span class="countdown__etiqueta">Horas</span>
+            </div>
+            <span class="countdown__separador" aria-hidden="true">:</span>
+            <div class="countdown__bloque">
+              <div class="countdown__flip" id="countdown-minutos">
+                <span class="countdown__numero">00</span>
+              </div>
+              <span class="countdown__etiqueta">Min</span>
+            </div>
+            <span class="countdown__separador" aria-hidden="true">:</span>
+            <div class="countdown__bloque">
+              <div class="countdown__flip" id="countdown-segundos">
+                <span class="countdown__numero">00</span>
+              </div>
+              <span class="countdown__etiqueta">Seg</span>
+            </div>
+          </div>
         </div>
       </div>
 

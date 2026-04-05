@@ -20,6 +20,7 @@
  * #25 — Dark mode toggle
  * #26 — View Transitions API
  * #27 — Service Worker (registro)
+ * #28 — Countdown (cuenta atrás al evento)
  *
  * ESTRUCTURA del archivo:
  * 1) Cada mejora tiene su propia función
@@ -453,6 +454,123 @@ function registrarServiceWorker() {
 
 
 /* ══════════════════════════════════════════
+   COUNTDOWN — Cuenta atrás al evento
+   ══════════════════════════════════════════
+
+   Muestra días, horas, minutos y segundos restantes hasta
+   la fecha del evento (26 de marzo de 2026, 18:45h).
+
+   ESTADOS:
+   - Futuro → muestra la cuenta atrás con efecto flip
+   - Hoy/en curso → muestra mensaje "EN DIRECTO" con punto rojo
+   - Pasado → oculta el countdown completamente
+
+   INTERCONEXIÓN:
+   - HTML: #countdown, #countdown-dias/horas/minutos/segundos (index.html)
+   - CSS: .countdown, .countdown__flip--activo (componentes.css)
+   - Comparte fecha con: js/agenda.js (FECHA_EVENTO)
+
+   setInterval ejecuta una función cada X milisegundos.
+   Aquí la usamos para actualizar la cuenta atrás cada segundo (1000ms).
+*/
+
+function inicializarCountdown() {
+  const contenedor = document.getElementById('countdown');
+  if (!contenedor) return; // Solo existe en index.html
+
+  // Fecha y hora exactas del evento (18:45h del 26 de marzo de 2026)
+  const FECHA_EVENTO = new Date('2026-03-26T18:45:00');
+
+  // Referencias a los elementos del DOM que muestran los números.
+  // getElementById es más rápido que querySelector para IDs.
+  const elDias = document.getElementById('countdown-dias');
+  const elHoras = document.getElementById('countdown-horas');
+  const elMinutos = document.getElementById('countdown-minutos');
+  const elSegundos = document.getElementById('countdown-segundos');
+
+  // Comprobamos que todos los elementos existen
+  if (!elDias || !elHoras || !elMinutos || !elSegundos) return;
+
+  /**
+   * Actualiza UN bloque del countdown.
+   * Si el valor ha cambiado, dispara la animación flip.
+   *
+   * @param {HTMLElement} elemento — El contenedor .countdown__flip
+   * @param {number} valor — El número a mostrar (ej: 42)
+   */
+  function actualizarBloque(elemento, valor) {
+    const numero = elemento.querySelector('.countdown__numero');
+    // padStart(2, '0') convierte 5 en "05" — siempre 2 dígitos
+    const textoNuevo = String(valor).padStart(2, '0');
+
+    // Solo animar si el valor realmente cambió
+    if (numero.textContent !== textoNuevo) {
+      numero.textContent = textoNuevo;
+
+      // Activar animación flip quitando y poniendo la clase.
+      // El truco de void elemento.offsetWidth fuerza un "reflow",
+      // que obliga al navegador a reiniciar la animación CSS.
+      elemento.classList.remove('countdown__flip--activo');
+      void elemento.offsetWidth; // Forzar reflow
+      elemento.classList.add('countdown__flip--activo');
+    }
+  }
+
+  /**
+   * Función principal que calcula la diferencia de tiempo
+   * y actualiza la interfaz.
+   *
+   * Math.floor() redondea hacia abajo (ej: 3.7 → 3).
+   * El operador % (módulo) da el resto de la división.
+   *
+   * Ejemplo: 90 minutos → 90 % 60 = 30 (muestra 30 min, la hora sube a 1)
+   */
+  function actualizar() {
+    const ahora = new Date();
+    const diferencia = FECHA_EVENTO - ahora; // Milisegundos restantes
+
+    // ESTADO: Evento ya pasó → ocultar countdown
+    // Damos 3h de margen (duración estimada del evento)
+    if (diferencia < -3 * 60 * 60 * 1000) {
+      contenedor.classList.add('countdown--oculto');
+      clearInterval(intervalo);
+      return;
+    }
+
+    // ESTADO: Evento en curso (diferencia negativa pero dentro de las 3h)
+    if (diferencia <= 0) {
+      contenedor.classList.add('countdown--en-curso');
+      contenedor.innerHTML = `
+        <div class="countdown__mensaje-vivo">
+          <span class="countdown__punto-vivo"></span>
+          En directo ahora
+        </div>
+      `;
+      clearInterval(intervalo);
+      return;
+    }
+
+    // ESTADO: Futuro → calcular días, horas, minutos, segundos
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+    actualizarBloque(elDias, dias);
+    actualizarBloque(elHoras, horas);
+    actualizarBloque(elMinutos, minutos);
+    actualizarBloque(elSegundos, segundos);
+  }
+
+  // Primera actualización inmediata (sin esperar 1 segundo)
+  actualizar();
+
+  // Actualizar cada segundo (1000 milisegundos)
+  const intervalo = setInterval(actualizar, 1000);
+}
+
+
+/* ══════════════════════════════════════════
    PUNTO DE ENTRADA — Inicialización
    ══════════════════════════════════════════
 
@@ -488,6 +606,9 @@ function inicializarMejoras() {
 
   // Mejora #27 — Service Worker
   registrarServiceWorker();
+
+  // Countdown — Cuenta atrás al evento
+  inicializarCountdown();
 }
 
 document.addEventListener('DOMContentLoaded', inicializarMejoras);

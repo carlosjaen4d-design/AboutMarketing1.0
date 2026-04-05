@@ -26,7 +26,7 @@
  */
 
 // Nombre de la caché. Cambiar la versión fuerza una actualización.
-const NOMBRE_CACHE = 'about-marketing-v2';
+const NOMBRE_CACHE = 'about-marketing-v3';
 
 // Archivos que se cachearán en la instalación.
 // Son los archivos "core" que necesitamos para que la web

@@ -187,6 +187,159 @@
   animation: entrada 0.9s var(--ease-out) 0.55s both;
 }
 
+/* ── COUNTDOWN — Cuenta atrás para el evento ──
+   Cada bloque (.countdown__bloque) contiene un dígito con efecto flip.
+   El efecto "flip" usa una animación CSS que simula la rotación de un
+   panel tipo reloj de aeropuerto.
+
+   Interconexión: js/mejoras.js (inicializarCountdown) actualiza los
+   valores cada segundo. La fecha se comparte con js/agenda.js.
+   ──────────────────────────────────────────── */
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  margin-top: var(--s-8);
+  animation: entrada 0.9s var(--ease-out) 0.65s both;
+}
+
+.countdown__bloque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+/* Caja con el número — efecto panel oscuro tipo aeropuerto */
+.countdown__flip {
+  position: relative;
+  width: 72px;
+  height: 80px;
+  background: rgba(15, 30, 60, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Línea horizontal central que simula la junta del panel flip */
+.countdown__flip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.countdown__numero {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-3xl);
+  font-weight: 700;
+  color: var(--blanco);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  /* Transición suave al cambiar de número */
+  transition: transform 0.3s var(--ease-out), opacity 0.3s;
+}
+
+/* Animación "flip" — se activa al cambiar un dígito.
+   JS añade/quita la clase .countdown__flip--activo. */
+.countdown__flip--activo .countdown__numero {
+  animation: flip-digito 0.4s ease-in-out;
+}
+
+@keyframes flip-digito {
+  0%   { transform: rotateX(0deg);   opacity: 1; }
+  40%  { transform: rotateX(-90deg); opacity: 0; }
+  60%  { transform: rotateX(90deg);  opacity: 0; }
+  100% { transform: rotateX(0deg);   opacity: 1; }
+}
+
+.countdown__etiqueta {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--texto-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+}
+
+.countdown__separador {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-2xl);
+  color: var(--amarillo);
+  line-height: 1;
+  margin-bottom: var(--s-5);
+  /* Parpadeo sutil tipo reloj */
+  animation: parpadeo-separador 1s step-end infinite;
+}
+
+@keyframes parpadeo-separador {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* Estado: evento finalizado — se oculta el countdown */
+.countdown--oculto {
+  display: none;
+}
+
+/* Estado: evento en curso — texto alternativo */
+.countdown--en-curso {
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.countdown__mensaje-vivo {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-xl);
+  color: var(--amarillo);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.countdown__punto-vivo {
+  width: 10px;
+  height: 10px;
+  background: var(--rojo);
+  border-radius: 50%;
+  animation: punto-latido 1.5s ease infinite;
+}
+
+/* Responsive — bloques más pequeños en móvil */
+@media (max-width: 768px) {
+  .countdown { gap: var(--s-2); }
+  .countdown__flip {
+    width: 56px;
+    height: 64px;
+    border-radius: 8px;
+  }
+  .countdown__numero {
+    font-size: var(--texto-2xl);
+  }
+  .countdown__separador {
+    font-size: var(--texto-lg);
+    margin-bottom: var(--s-4);
+  }
+}
+
+/* Respetar prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .countdown__separador { animation: none; }
+  .countdown__flip--activo .countdown__numero { animation: none; }
+}
+
+
 /* Barra inferior del hero — "18:45 · am · Salón de Actos" */
 .hero__bottom-bar {
   position: absolute;
