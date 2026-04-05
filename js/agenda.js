@@ -15,10 +15,111 @@
 // Interconecta agenda.json (campo "ponente") con el texto mostrado en pantalla.
 const NOMBRES_PONENTES = {
   'luis-montalvo': 'Luis Montalvo',
-  'raquel-linde': 'Raquel Linde',
-  'ana-garcia': 'Ana García',
-  'carlos-ruiz': 'Carlos Ruiz'
+  'raquel-linde': 'Raquel Linde'
 };
+
+/**
+ * REQUISITO D4 — Mostrar agenda del día correspondiente.
+ * -------------------------------------------------------
+ * Fecha del evento real. Se compara con la fecha actual para
+ * determinar el estado: próximo | hoy | finalizado.
+ *
+ * Si el evento se aplaza, basta cambiar esta constante.
+ */
+const FECHA_EVENTO = '2026-03-26';
+
+/**
+ * Compara la fecha actual con FECHA_EVENTO y devuelve un string
+ * que representa el estado del evento:
+ *
+ *   'proximo'    → el evento aún no ha ocurrido
+ *   'hoy'        → hoy es el día del evento
+ *   'finalizado' → el evento ya pasó
+ *
+ * Normaliza las horas a 00:00:00 para comparar solo por día.
+ */
+function obtenerEstadoEvento() {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  const fechaEvento = new Date(FECHA_EVENTO + 'T00:00:00');
+
+  if (hoy < fechaEvento) return 'proximo';
+  if (hoy.getTime() === fechaEvento.getTime()) return 'hoy';
+  return 'finalizado';
+}
+
+/**
+ * Genera un banner informativo sobre el estado del evento.
+ * Se inserta ANTES de los items de la agenda.
+ *
+ * Interconexión: las clases .agenda-estado* se estilizan
+ * en css/componentes.css (bloque AGENDA — ESTADO).
+ */
+function crearMensajeEstado(estado) {
+  if (estado === 'hoy') return null; // Sin banner — la agenda habla por sí sola.
+
+  const mensajes = {
+    proximo: {
+      titulo: 'Próximamente',
+      texto: `El evento se celebrará el 26 de marzo de 2026. ¡Te esperamos!`
+    },
+    finalizado: {
+      titulo: 'Evento finalizado',
+      texto: 'Gracias a todos los asistentes y ponentes. ¡Nos vemos en la próxima edición!'
+    }
+  };
+
+  const info = mensajes[estado];
+  const banner = document.createElement('div');
+  banner.className = 'agenda-estado';
+  banner.innerHTML = `
+    <p class="agenda-estado__titulo">${info.titulo}</p>
+    <p class="agenda-estado__texto">${info.texto}</p>
+  `;
+  return banner;
+}
+
+/**
+ * Resalta el item de la agenda cuya hora es la más cercana
+ * a la hora actual. Solo se ejecuta si el evento es HOY.
+ *
+ * Lógica:
+ * 1) Convierte cada "hora" (ej. "19:00") a minutos desde medianoche
+ * 2) Compara con la hora actual
+ * 3) El item cuya hora ya pasó y es más cercano recibe la clase --activo
+ *
+ * Interconexión: .agenda-item--activo se estiliza en componentes.css.
+ */
+function resaltarItemActual(items) {
+  const ahora = new Date();
+  const minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
+
+  let itemActivo = null;
+  let menorDiferencia = Infinity;
+
+  items.forEach((item, indice) => {
+    const [horas, minutos] = item.hora.split(':').map(Number);
+    const minutosItem = horas * 60 + minutos;
+
+    // Solo consideramos items cuya hora ya comenzó
+    if (minutosItem <= minutosAhora) {
+      const diferencia = minutosAhora - minutosItem;
+      if (diferencia < menorDiferencia) {
+        menorDiferencia = diferencia;
+        itemActivo = indice;
+      }
+    }
+  });
+
+  // Aplicar clase al item activo
+  if (itemActivo !== null) {
+    const elementos = document.querySelectorAll('.agenda-item');
+    if (elementos[itemActivo]) {
+      elementos[itemActivo].classList.add('agenda-item--activo');
+    }
+  }
+}
 
 /**
  * Detecta si estamos en /pages para construir rutas correctas.
@@ -106,6 +207,9 @@ async function cargarAgenda() {
   const contenedor = document.querySelector('.agenda__lista');
   if (!contenedor) return; // Evita ejecutar en páginas que no tienen agenda.
 
+  // REQUISITO D4: Determinar estado del evento (próximo | hoy | finalizado)
+  const estado = obtenerEstadoEvento();
+
   try {
     const respuesta = await fetch(obtenerRutaAgenda());
     if (!respuesta.ok) throw new Error(`Error HTTP ${respuesta.status}`);
@@ -113,9 +217,25 @@ async function cargarAgenda() {
     const agenda = await respuesta.json();
     contenedor.innerHTML = '';
 
+    // Clase modificadora en el contenedor según estado del evento.
+    // Interconexión: .agenda__lista--finalizado reduce opacidad (componentes.css)
+    contenedor.classList.add(`agenda__lista--${estado}`);
+
+    // Insertar banner de estado si corresponde (no se muestra el día del evento)
+    const banner = crearMensajeEstado(estado);
+    if (banner) {
+      contenedor.appendChild(banner);
+    }
+
+    // Renderizar todos los items de la agenda
     agenda.forEach((item) => {
       contenedor.appendChild(crearElementoAgenda(item));
     });
+
+    // Si el evento es HOY, resaltar el item en curso
+    if (estado === 'hoy') {
+      resaltarItemActual(agenda);
+    }
   } catch (error) {
     console.error('No se pudo cargar la agenda:', error);
     contenedor.innerHTML = '<p style="color: var(--color-texto-suave); text-align:center; padding:2rem;">No se pudo cargar la agenda.</p>';

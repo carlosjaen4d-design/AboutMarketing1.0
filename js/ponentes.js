@@ -145,6 +145,11 @@ function crearModalSiNoExiste() {
         </div>
         <p class="modal__seccion-titulo">Especialidades</p>
         <div class="modal__tags" id="modal-tags"></div>
+        <!-- REQUISITO 3: Enlace a la página individual del ponente -->
+        <a href="#" class="btn btn-primario modal__enlace-pagina" id="modal-enlace-pagina"
+           style="margin-top:var(--s-6); width:100%; justify-content:center;">
+          Ver página completa
+        </a>
       </div>
     </div>
   `;
@@ -275,6 +280,16 @@ function abrirModalPonente(ponente) {
   document.getElementById('modal-tags').innerHTML = crearHtmlTags(ponente.tags);
 
   pintarRedesSociales(ponente.rrss);
+
+  // REQUISITO 3: Actualizar enlace a la página individual del ponente.
+  // La ruta depende de si estamos en index.html o en pages/*.html.
+  const enlacePagina = document.getElementById('modal-enlace-pagina');
+  if (enlacePagina) {
+    const rutaPonente = estamosEnSubpagina()
+      ? `ponente.html?id=${ponente.id}`
+      : `pages/ponente.html?id=${ponente.id}`;
+    enlacePagina.href = rutaPonente;
+  }
 
   overlay.classList.add('activo');
   document.body.style.overflow = 'hidden';

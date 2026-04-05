@@ -692,6 +692,158 @@
 
 
 /* ══════════════════════════════════════════
+   PONENTE — PÁGINA INDIVIDUAL DE DETALLE
+   ══════════════════════════════════════════
+   REQUISITO 3 — Página individual de cada ponente.
+   Clases generadas por js/ponente-detalle.js.
+   ══════════════════════════════════════════ */
+
+.ponente-detalle__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--s-10);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.ponente-detalle__foto-wrap {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.ponente-detalle__foto {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid rgba(240,196,48,0.2);
+  object-fit: cover;
+}
+
+.ponente-detalle__nombre {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-3xl);
+  color: var(--blanco);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  margin-bottom: var(--s-2);
+}
+
+.ponente-detalle__cargo {
+  font-family: var(--fuente-script);
+  font-size: var(--texto-lg);
+  color: var(--amarillo);
+  margin-bottom: var(--s-1);
+}
+
+.ponente-detalle__empresa {
+  font-size: var(--texto-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  margin-bottom: var(--s-4);
+}
+
+.ponente-detalle__rrss {
+  display: flex;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+
+.ponente-detalle__seccion {
+  margin-bottom: var(--s-6);
+}
+
+.ponente-detalle__seccion-titulo {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--amarillo);
+  margin-bottom: var(--s-3);
+}
+
+.ponente-detalle__bio {
+  font-size: var(--texto-base);
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+}
+
+.ponente-detalle__charla-box {
+  background: rgba(240,196,48,0.06);
+  border: 1px solid rgba(240,196,48,0.15);
+  border-left: 3px solid var(--amarillo);
+  border-radius: var(--radio-md);
+  padding: var(--s-4) var(--s-6);
+}
+
+.ponente-detalle__charla-titulo {
+  font-size: var(--texto-base);
+  font-weight: 500;
+  color: var(--blanco);
+  line-height: 1.4;
+}
+
+.ponente-detalle__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.ponente-detalle__volver {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-8);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: var(--s-3) var(--s-6);
+  border-radius: var(--radio-md);
+  font-size: var(--texto-sm);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ponente-detalle__volver:hover {
+  color: var(--amarillo);
+  border-color: var(--amarillo);
+}
+
+/* Error: ponente no encontrado */
+.ponente-detalle__error {
+  text-align: center;
+  padding: var(--s-12) var(--s-6);
+}
+.ponente-detalle__error-titulo {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-2xl);
+  color: var(--blanco);
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+}
+.ponente-detalle__error-texto {
+  font-size: var(--texto-base);
+  color: rgba(255,255,255,0.45);
+  margin-bottom: var(--s-6);
+  line-height: 1.6;
+}
+
+/* Responsive: 1 columna en móvil */
+@media (max-width: 768px) {
+  .ponente-detalle__layout {
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+  .ponente-detalle__foto-wrap {
+    position: static;
+    max-width: 220px;
+    margin-inline: auto;
+  }
+}
+
+
+/* ══════════════════════════════════════════
    AGENDA
    ══════════════════════════════════════════ */
 
@@ -743,6 +895,45 @@
 .agenda-item__ponente { font-family: var(--fuente-script); font-size: 1rem; color: var(--amarillo); margin-bottom: var(--s-2); }
 .agenda-item__meta { display: flex; gap: var(--s-5); font-size: var(--texto-xs); color: rgba(255,255,255,0.22); margin-bottom: var(--s-3); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
 .agenda-item__descripcion { font-size: var(--texto-sm); color: rgba(255,255,255,0.33); line-height: 1.65; }
+
+/* ── AGENDA — ESTADO DEL EVENTO (REQUISITO D4) ── */
+/* Banner informativo que aparece antes de los items.
+   Solo visible si el evento es "próximo" o "finalizado". */
+.agenda-estado {
+  text-align: center;
+  padding: var(--s-8) var(--s-6);
+  margin-bottom: var(--s-6);
+  border: 1px solid rgba(240,196,48,0.15);
+  border-radius: 12px;
+  background: rgba(240,196,48,0.04);
+}
+.agenda-estado__titulo {
+  font-family: var(--fuente-display);
+  font-size: var(--texto-2xl);
+  color: var(--amarillo);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--s-2);
+}
+.agenda-estado__texto {
+  font-size: var(--texto-sm);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+/* Item activo: resaltado durante el evento (estado "hoy").
+   La franja amarilla a la izquierda indica "en curso". */
+.agenda-item--activo {
+  border-left: 3px solid var(--amarillo);
+  background: rgba(240,196,48,0.05);
+  border-radius: 0 8px 8px 0;
+  padding-left: var(--s-4);
+}
+
+/* Evento finalizado: items con opacidad reducida.
+   El banner de estado mantiene opacidad completa. */
+.agenda__lista--finalizado .agenda-item { opacity: 0.5; }
+.agenda__lista--finalizado .agenda-estado { opacity: 1; }
 
 
 /* ══════════════════════════════════════════

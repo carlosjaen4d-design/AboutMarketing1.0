@@ -26,7 +26,7 @@
  */
 
 // Nombre de la caché. Cambiar la versión fuerza una actualización.
-const NOMBRE_CACHE = 'about-marketing-v1';
+const NOMBRE_CACHE = 'about-marketing-v2';
 
 // Archivos que se cachearán en la instalación.
 // Son los archivos "core" que necesitamos para que la web
@@ -41,7 +41,9 @@ const ARCHIVOS_CORE = [
   '/js/navbar.js',
   '/js/animaciones.js',
   '/js/ticker.js',
-  '/js/mejoras.js'
+  '/js/mejoras.js',
+  '/pages/ponente.html',
+  '/js/ponente-detalle.js'
 ];
 
 /**
